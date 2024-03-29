@@ -310,7 +310,7 @@ void PSPDialog::DisplayButtons(int flags, std::string_view caption) {
 
 	PPGeStyle textStyle = FadedStyle(PPGeAlign::BOX_LEFT, FONT_SCALE);
 
-	auto di = GetI18NCategory(I18NCat::DIALOG);
+	auto di = GetI18NCategory<I18NCat::DIALOG>();
 	float x1 = 183.5f, x2 = 261.5f;
 	if (GetCommonParam()->buttonSwap == 1) {
 		x1 = 261.5f;

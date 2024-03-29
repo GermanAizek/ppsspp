@@ -47,8 +47,8 @@ void TouchControlVisibilityScreen::CreateViews() {
 	using namespace UI;
 	using namespace CustomKeyData;
 
-	auto di = GetI18NCategory(I18NCat::DIALOG);
-	auto co = GetI18NCategory(I18NCat::CONTROLS);
+	auto di = GetI18NCategory<I18NCat::DIALOG>();
+	auto co = GetI18NCategory<I18NCat::CONTROLS>();
 
 	root_ = new AnchorLayout(new LayoutParams(FILL_PARENT, FILL_PARENT));
 
@@ -100,7 +100,7 @@ void TouchControlVisibilityScreen::CreateViews() {
 		} });
 	}
 
-	auto mc = GetI18NCategory(I18NCat::MAPPABLECONTROLS);
+	auto mc = GetI18NCategory<I18NCat::MAPPABLECONTROLS>();
 	for (auto toggle : toggles_) {
 		LinearLayout *row = new LinearLayout(ORIENT_HORIZONTAL, new LinearLayoutParams(FILL_PARENT, WRAP_CONTENT));
 		row->SetSpacing(0);
@@ -137,9 +137,9 @@ void TouchControlVisibilityScreen::onFinish(DialogResult result) {
 void RightAnalogMappingScreen::CreateViews() {
 	using namespace UI;
 
-	auto di = GetI18NCategory(I18NCat::DIALOG);
-	auto co = GetI18NCategory(I18NCat::CONTROLS);
-	auto mc = GetI18NCategory(I18NCat::MAPPABLECONTROLS);
+	auto di = GetI18NCategory<I18NCat::DIALOG>();
+	auto co = GetI18NCategory<I18NCat::CONTROLS>();
+	auto mc = GetI18NCategory<I18NCat::MAPPABLECONTROLS>();
 
 	root_ = new AnchorLayout(new LayoutParams(FILL_PARENT, FILL_PARENT));
 	Choice *back = new Choice(di->T("Back"), "", false, new AnchorLayoutParams(leftColumnWidth - 10, WRAP_CONTENT, 10, NONE, NONE, 10));

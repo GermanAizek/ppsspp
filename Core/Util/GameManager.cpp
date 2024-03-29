@@ -134,7 +134,7 @@ void GameManager::UninstallGame(const std::string &name) {
 	AndroidJNIThreadContext context;  // Destructor detaches.
 
 	Path gameDir = GetSysDirectory(DIRECTORY_GAME) / name;
-	auto st = GetI18NCategory(I18NCat::STORE);
+	auto st = GetI18NCategory<I18NCat::STORE>();
 
 	INFO_LOG(HLE, "Uninstalling '%s'", gameDir.c_str());
 	if (!File::Exists(gameDir)) {
@@ -298,9 +298,9 @@ bool GameManager::InstallGame(const Path &url, const Path &fileName, bool delete
 		return false;
 	}
 
-	auto st = GetI18NCategory(I18NCat::STORE);
-	auto di = GetI18NCategory(I18NCat::DIALOG);
-	auto sy = GetI18NCategory(I18NCat::SYSTEM);
+	auto st = GetI18NCategory<I18NCat::STORE>();
+	auto di = GetI18NCategory<I18NCat::DIALOG>();
+	auto sy = GetI18NCategory<I18NCat::SYSTEM>();
 
 	std::string extension = url.GetFileExtension();
 	// Examine the URL to guess out what we're installing.
@@ -368,7 +368,7 @@ bool GameManager::InstallGame(const Path &url, const Path &fileName, bool delete
 }
 
 bool GameManager::DetectTexturePackDest(struct zip *z, int iniIndex, Path &dest) {
-	auto iz = GetI18NCategory(I18NCat::INSTALLZIP);
+	auto iz = GetI18NCategory<I18NCat::INSTALLZIP>();
 
 	struct zip_stat zstat;
 	zip_stat_index(z, iniIndex, 0, &zstat);
@@ -539,7 +539,7 @@ bool GameManager::ExtractFile(struct zip *z, int file_index, const Path &outFile
 		delete[] buffer;
 		return true;
 	} else {
-		auto iz = GetI18NCategory(I18NCat::INSTALLZIP);
+		auto iz = GetI18NCategory<I18NCat::INSTALLZIP>();
 		g_OSD.Show(OSDType::MESSAGE_ERROR, iz->T("Installation failed"));
 		ERROR_LOG(HLE, "Failed to open file for writing: %s", outFilename.c_str());
 		return false;
@@ -550,7 +550,7 @@ bool GameManager::InstallMemstickGame(struct zip *z, const Path &zipfile, const 
 	size_t allBytes = 0;
 	size_t bytesCopied = 0;
 
-	auto sy = GetI18NCategory(I18NCat::SYSTEM);
+	auto sy = GetI18NCategory<I18NCat::SYSTEM>();
 
 	auto fileAllowed = [&](const char *fn) {
 		if (!allowRoot && strchr(fn, '/') == 0)
@@ -567,7 +567,7 @@ bool GameManager::InstallMemstickGame(struct zip *z, const Path &zipfile, const 
 		return true;
 	};
 
-	auto di = GetI18NCategory(I18NCat::DIALOG);
+	auto di = GetI18NCategory<I18NCat::DIALOG>();
 
 	// Create all the directories first in one pass
 	std::set<Path> createdDirs;
@@ -657,7 +657,7 @@ bool GameManager::InstallMemstickZip(struct zip *z, const Path &zipfile, const P
 	size_t allBytes = 0;
 	size_t bytesCopied = 0;
 
-	auto sy = GetI18NCategory(I18NCat::SYSTEM);
+	auto sy = GetI18NCategory<I18NCat::SYSTEM>();
 
 	// We don't need the zip anymore, as we're going to copy it as-is.
 	zip_close(z);
@@ -676,7 +676,7 @@ bool GameManager::InstallMemstickZip(struct zip *z, const Path &zipfile, const P
 		return false;
 	}
 
-	auto di = GetI18NCategory(I18NCat::DIALOG);
+	auto di = GetI18NCategory<I18NCat::DIALOG>();
 
 	const size_t blockSize = 1024 * 128;
 	u8 *buffer = new u8[blockSize];
@@ -730,7 +730,7 @@ bool GameManager::InstallZippedISO(struct zip *z, int isoFileIndex, const Path &
 	Path outputISOFilename = Path(g_Config.currentDirectory) / fn.substr(nameOffset);
 	size_t bytesCopied = 0;
 	bool success = false;
-	auto di = GetI18NCategory(I18NCat::DIALOG);
+	auto di = GetI18NCategory<I18NCat::DIALOG>();
 	g_OSD.SetProgressBar("install", di->T("Installing..."), 0.0f, 0.0f, 0.0f, 0.1f);
 	if (ExtractFile(z, isoFileIndex, outputISOFilename, &bytesCopied, allBytes)) {
 		INFO_LOG(IO, "Successfully unzipped ISO file to '%s'", outputISOFilename.c_str());
@@ -772,7 +772,7 @@ bool GameManager::UninstallGameOnThread(const std::string &name) {
 
 bool GameManager::InstallRawISO(const Path &file, const std::string &originalName, bool deleteAfter) {
 	Path destPath = Path(g_Config.currentDirectory) / originalName;
-	auto di = GetI18NCategory(I18NCat::DIALOG);
+	auto di = GetI18NCategory<I18NCat::DIALOG>();
 	g_OSD.SetProgressBar("install", di->T("Installing..."), 0.0f, 0.0f, 0.0f, 0.1f);
 	// TODO: To save disk space, we should probably attempt a move first.
 	if (File::Copy(file, destPath)) {

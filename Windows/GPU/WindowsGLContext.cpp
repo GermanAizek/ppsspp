@@ -260,7 +260,7 @@ bool WindowsGLContext::InitFromRenderThread(std::string *error_message) {
 			"DirectX is currently compatible with less games, but on your GPU it may be the only choice.\n\n"
 			"Visit the forums at https://forums.ppsspp.org for more information.\n\n";
 
-		auto err = GetI18NCategory(I18NCat::ERRORS);
+		auto err = GetI18NCategory<I18NCat::ERRORS>();
 		std::wstring versionDetected = ConvertUTF8ToWString(glVersion + "\n\n");
 		std::wstring error = ConvertUTF8ToWString(err->T("InsufficientOpenGLDriver", defaultError));
 		std::wstring title = ConvertUTF8ToWString(err->T("OpenGLDriverError", "OpenGL driver error"));

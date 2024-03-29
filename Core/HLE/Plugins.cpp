@@ -181,7 +181,7 @@ void Init() {
 bool Load() {
 	bool started = false;
 
-	auto sy = GetI18NCategory(I18NCat::SYSTEM);
+	auto sy = GetI18NCategory<I18NCat::SYSTEM>();
 
 	for (const std::string &filename : prxPlugins) {
 		std::string error_string = "";

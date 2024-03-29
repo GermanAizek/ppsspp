@@ -88,8 +88,8 @@ DriverChoice::DriverChoice(const std::string &driverName, bool current, UI::Layo
 		layoutParams_->width = FILL_PARENT;
 		layoutParams_->height = 220;
 	}
-	auto gr = GetI18NCategory(I18NCat::GRAPHICS);
-	auto di = GetI18NCategory(I18NCat::DIALOG);
+	auto gr = GetI18NCategory<I18NCat::GRAPHICS>();
+	auto di = GetI18NCategory<I18NCat::DIALOG>();
 
 	// Read the meta data
 	DriverMeta meta{};
@@ -150,7 +150,7 @@ DriverManagerScreen::DriverManagerScreen(const Path & gamePath) : TabbedUIDialog
 
 void DriverManagerScreen::CreateTabs() {
 	using namespace UI;
-	auto gr = GetI18NCategory(I18NCat::GRAPHICS);
+	auto gr = GetI18NCategory<I18NCat::GRAPHICS>();
 
 	LinearLayout *drivers = AddTab("DriverManagerDrivers", gr->T("Drivers"));
 	CreateDriverTab(drivers);
@@ -158,8 +158,8 @@ void DriverManagerScreen::CreateTabs() {
 
 void DriverManagerScreen::CreateDriverTab(UI::ViewGroup *drivers) {
 	using namespace UI;
-	auto di = GetI18NCategory(I18NCat::DIALOG);
-	auto gr = GetI18NCategory(I18NCat::GRAPHICS);
+	auto di = GetI18NCategory<I18NCat::DIALOG>();
+	auto gr = GetI18NCategory<I18NCat::GRAPHICS>();
 
 	drivers->Add(new ItemHeader(gr->T("AdrenoTools driver manager")));
 	auto customDriverInstallChoice = drivers->Add(new Choice(gr->T("Install custom driver...")));
@@ -187,7 +187,7 @@ void DriverManagerScreen::CreateDriverTab(UI::ViewGroup *drivers) {
 }
 
 UI::EventReturn DriverManagerScreen::OnCustomDriverChange(UI::EventParams &e) {
-	auto di = GetI18NCategory(I18NCat::DIALOG);
+	auto di = GetI18NCategory<I18NCat::DIALOG>();
 
 	screenManager()->push(new PromptScreen(gamePath_, di->T("Changing this setting requires PPSSPP to restart."), di->T("Restart"), di->T("Cancel"), [=](bool yes) {
 		if (yes) {
@@ -213,14 +213,14 @@ UI::EventReturn DriverManagerScreen::OnCustomDriverUninstall(UI::EventParams &e)
 }
 
 UI::EventReturn DriverManagerScreen::OnCustomDriverInstall(UI::EventParams &e) {
-	auto gr = GetI18NCategory(I18NCat::GRAPHICS);
+	auto gr = GetI18NCategory<I18NCat::GRAPHICS>();
 
 	System_BrowseForFile(GetRequesterToken(), gr->T("Install custom driver..."), BrowseFileType::ZIP, [this](const std::string &value, int) {
 		if (value.empty()) {
 			return;
 		}
 
-		auto gr = GetI18NCategory(I18NCat::GRAPHICS);
+		auto gr = GetI18NCategory<I18NCat::GRAPHICS>();
 
 		Path zipPath = Path(value);
 
@@ -270,7 +270,7 @@ UI::EventReturn DriverManagerScreen::OnCustomDriverInstall(UI::EventParams &e) {
 			delete[] data;
 		}
 
-		auto iz = GetI18NCategory(I18NCat::INSTALLZIP);
+		auto iz = GetI18NCategory<I18NCat::INSTALLZIP>();
 		g_OSD.Show(OSDType::MESSAGE_SUCCESS, iz->T("Installed!"));
 		RecreateViews();
 	});

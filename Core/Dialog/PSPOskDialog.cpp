@@ -990,7 +990,7 @@ int PSPOskDialog::Update(int animSpeed) {
 	PPGeDrawRect(0, 0, 480, 272, CalcFadedColor(0x63636363));
 	RenderKeyboard();
 
-	auto di = GetI18NCategory(I18NCat::DIALOG);
+	auto di = GetI18NCategory<I18NCat::DIALOG>();
 
 	PPGeStyle actionStyle = FadedStyle(PPGeAlign::BOX_LEFT, 0.5f);
 	PPGeStyle guideStyle = FadedStyle(PPGeAlign::BOX_LEFT, 0.6f);

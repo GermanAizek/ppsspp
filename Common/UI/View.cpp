@@ -542,7 +542,7 @@ void Choice::Draw(UIContext &dc) {
 }
 
 std::string Choice::DescribeText() const {
-	auto u = GetI18NCategory(I18NCat::UI_ELEMENTS);
+	auto u = GetI18NCategory<I18NCat::UI_ELEMENTS>();
 	return ApplySafeSubstitutions(u->T("%1 choice"), text_);
 }
 
@@ -590,7 +590,7 @@ void InfoItem::Draw(UIContext &dc) {
 }
 
 std::string InfoItem::DescribeText() const {
-	auto u = GetI18NCategory(I18NCat::UI_ELEMENTS);
+	auto u = GetI18NCategory<I18NCat::UI_ELEMENTS>();
 	return ApplySafeSubstitutions(u->T("%1: %2"), text_, rightText_);
 }
 
@@ -620,7 +620,7 @@ void ItemHeader::GetContentDimensionsBySpec(const UIContext &dc, MeasureSpec hor
 }
 
 std::string ItemHeader::DescribeText() const {
-	auto u = GetI18NCategory(I18NCat::UI_ELEMENTS);
+	auto u = GetI18NCategory<I18NCat::UI_ELEMENTS>();
 	return ApplySafeSubstitutions(u->T("%1 heading"), text_);
 }
 
@@ -726,7 +726,7 @@ void PopupHeader::Draw(UIContext &dc) {
 }
 
 std::string PopupHeader::DescribeText() const {
-	auto u = GetI18NCategory(I18NCat::UI_ELEMENTS);
+	auto u = GetI18NCategory<I18NCat::UI_ELEMENTS>();
 	return ApplySafeSubstitutions(u->T("%1 heading"), text_);
 }
 
@@ -805,7 +805,7 @@ void CheckBox::Draw(UIContext &dc) {
 }
 
 std::string CheckBox::DescribeText() const {
-	auto u = GetI18NCategory(I18NCat::UI_ELEMENTS);
+	auto u = GetI18NCategory<I18NCat::UI_ELEMENTS>();
 	std::string text = ApplySafeSubstitutions(u->T("%1 checkbox"), text_);
 	if (!smallText_.empty()) {
 		text += "\n" + smallText_;
@@ -898,7 +898,7 @@ void Button::GetContentDimensions(const UIContext &dc, float &w, float &h) const
 }
 
 std::string Button::DescribeText() const {
-	auto u = GetI18NCategory(I18NCat::UI_ELEMENTS);
+	auto u = GetI18NCategory<I18NCat::UI_ELEMENTS>();
 	return ApplySafeSubstitutions(u->T("%1 button"), GetText());
 }
 
@@ -960,7 +960,7 @@ void RadioButton::GetContentDimensions(const UIContext &dc, float &w, float &h) 
 }
 
 std::string RadioButton::DescribeText() const {
-	auto u = GetI18NCategory(I18NCat::UI_ELEMENTS);
+	auto u = GetI18NCategory<I18NCat::UI_ELEMENTS>();
 	return ApplySafeSubstitutions(u->T("%1 radio button"), text_);
 }
 
@@ -1159,7 +1159,7 @@ void TextEdit::GetContentDimensions(const UIContext &dc, float &w, float &h) con
 }
 
 std::string TextEdit::DescribeText() const {
-	auto u = GetI18NCategory(I18NCat::UI_ELEMENTS);
+	auto u = GetI18NCategory<I18NCat::UI_ELEMENTS>();
 	return ApplySafeSubstitutions(u->T("%1 text field"), GetText());
 }
 
@@ -1349,7 +1349,7 @@ void ProgressBar::Draw(UIContext &dc) {
 }
 
 std::string ProgressBar::DescribeText() const {
-	auto u = GetI18NCategory(I18NCat::UI_ELEMENTS);
+	auto u = GetI18NCategory<I18NCat::UI_ELEMENTS>();
 	float percent = progress_ * 100.0f;
 	return ApplySafeSubstitutions(u->T("Progress: %1%"), StringFromInt((int)percent));
 }

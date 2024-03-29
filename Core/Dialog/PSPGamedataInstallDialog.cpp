@@ -298,7 +298,7 @@ void PSPGamedataInstallDialog::RenderProgress(int percentage) {
 	PPGeDrawRect(barX, barY, barX + barWidth, barY + barH, 0xFF707070);
 	PPGeDrawRect(barX, barY, barX + barWidthDone, barY + barH, 0xFFE0E0E0);
 
-	auto di = GetI18NCategory(I18NCat::DIALOG);
+	auto di = GetI18NCategory<I18NCat::DIALOG>();
 
 	fadeValue = 255;
 	PPGeStyle textStyle = FadedStyle(PPGeAlign::BOX_HCENTER, 0.6f);

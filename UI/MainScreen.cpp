@@ -430,7 +430,7 @@ std::string GameButton::DescribeText() const {
 	std::shared_ptr<GameInfo> ginfo = g_gameInfoCache->GetInfo(nullptr, gamePath_, GameInfoFlags::PARAM_SFO);
 	if (!ginfo->Ready(GameInfoFlags::PARAM_SFO))
 		return "...";
-	auto u = GetI18NCategory(I18NCat::UI_ELEMENTS);
+	auto u = GetI18NCategory<I18NCat::UI_ELEMENTS>();
 	return ApplySafeSubstitutions(u->T("%1 button"), ginfo->GetTitle());
 }
 
@@ -602,7 +602,7 @@ UI::EventReturn GameBrowser::LastClick(UI::EventParams &e) {
 }
 
 UI::EventReturn GameBrowser::BrowseClick(UI::EventParams &e) {
-	auto mm = GetI18NCategory(I18NCat::MAINMENU);
+	auto mm = GetI18NCategory<I18NCat::MAINMENU>();
 	System_BrowseForFolder(token_, mm->T("Choose folder"), path_.GetPath(), [this](const std::string &filename, int) {
 		this->SetPath(Path(filename));
 	});
@@ -757,7 +757,7 @@ void GameBrowser::Refresh() {
 	searchStates_.clear();
 
 	Add(new Spacer(1.0f));
-	auto mm = GetI18NCategory(I18NCat::MAINMENU);
+	auto mm = GetI18NCategory<I18NCat::MAINMENU>();
 
 	// No topbar on recent screen
 	if (DisplayTopBar()) {
@@ -779,7 +779,7 @@ void GameBrowser::Refresh() {
 			}
 			if (System_GetPropertyInt(SYSPROP_DEVICE_TYPE) == DEVICE_TYPE_TV) {
 				topBar->Add(new Choice(mm->T("Enter Path"), new LayoutParams(WRAP_CONTENT, 64.0f)))->OnClick.Add([=](UI::EventParams &) {
-					auto mm = GetI18NCategory(I18NCat::MAINMENU);
+					auto mm = GetI18NCategory<I18NCat::MAINMENU>();
 					System_InputBoxGetString(token_, mm->T("Enter Path"), path_.GetPath().ToString(), [=](const char *responseString, int responseValue) {
 						this->SetPath(Path(responseString));
 					});
@@ -1040,7 +1040,7 @@ UI::EventReturn GameBrowser::NavigateClick(UI::EventParams &e) {
 }
 
 UI::EventReturn GameBrowser::GridSettingsClick(UI::EventParams &e) {
-	auto sy = GetI18NCategory(I18NCat::SYSTEM);
+	auto sy = GetI18NCategory<I18NCat::SYSTEM>();
 	auto gridSettings = new GridSettingsScreen(sy->T("Games list settings"));
 	gridSettings->OnRecentChanged.Handle(this, &GameBrowser::OnRecentClear);
 	if (e.v)
@@ -1077,7 +1077,7 @@ void MainScreen::CreateViews() {
 
 	bool vertical = UseVerticalLayout();
 
-	auto mm = GetI18NCategory(I18NCat::MAINMENU);
+	auto mm = GetI18NCategory<I18NCat::MAINMENU>();
 
 	tabHolder_ = new TabHolder(ORIENT_HORIZONTAL, 64, new LinearLayoutParams(FILL_PARENT, WRAP_CONTENT, 1.0f));
 	ViewGroup *leftColumn = tabHolder_;
@@ -1143,7 +1143,7 @@ void MainScreen::CreateViews() {
 		tabHomebrew->OnHighlight.Handle(this, &MainScreen::OnGameHighlight);
 
 		if (g_Config.bRemoteTab && !g_Config.sLastRemoteISOServer.empty()) {
-			auto ri = GetI18NCategory(I18NCat::REMOTEISO);
+			auto ri = GetI18NCategory<I18NCat::REMOTEISO>();
 
 			ScrollView *scrollRemote = new ScrollView(ORIENT_VERTICAL, new LinearLayoutParams(FILL_PARENT, WRAP_CONTENT));
 			scrollRemote->SetTag("MainScreenRemote");
@@ -1236,7 +1236,7 @@ void MainScreen::CreateViews() {
 	logos->Add(new ImageView(ImageID("I_LOGO"), "PPSSPP", IS_DEFAULT, new AnchorLayoutParams(180, 64, 64, -5.0f, NONE, NONE, false)));
 
 #if !defined(MOBILE_DEVICE)
-	auto gr = GetI18NCategory(I18NCat::GRAPHICS);
+	auto gr = GetI18NCategory<I18NCat::GRAPHICS>();
 	ImageID icon(g_Config.UseFullScreen() ? "I_RESTORE" : "I_FULLSCREEN");
 	fullscreenButton_ = logos->Add(new Button(gr->T("FullScreen", "Full Screen"), icon, new AnchorLayoutParams(48, 48, NONE, 0, 0, NONE, false)));
 	fullscreenButton_->SetIgnoreText(true);
@@ -1299,7 +1299,7 @@ void MainScreen::CreateViews() {
 
 	upgradeBar_ = 0;
 	if (!g_Config.upgradeMessage.empty()) {
-		auto u = GetI18NCategory(I18NCat::UPGRADE);
+		auto u = GetI18NCategory<I18NCat::UPGRADE>();
 		upgradeBar_ = new LinearLayout(ORIENT_HORIZONTAL, new LinearLayoutParams(FILL_PARENT, WRAP_CONTENT));
 
 		UI::Margins textMargins(10, 5);
@@ -1328,7 +1328,7 @@ bool MainScreen::key(const KeyInput &touch) {
 		if (touch.keyCode == NKCODE_CTRL_LEFT || touch.keyCode == NKCODE_CTRL_RIGHT)
 			searchKeyModifier_ = true;
 		if (touch.keyCode == NKCODE_F && searchKeyModifier_ && System_GetPropertyBool(SYSPROP_HAS_TEXT_INPUT_DIALOG)) {
-			auto se = GetI18NCategory(I18NCat::SEARCH);
+			auto se = GetI18NCategory<I18NCat::SEARCH>();
 			System_InputBoxGetString(GetRequesterToken(), se->T("Search term"), searchFilter_, [&](const std::string &value, int) {
 				searchFilter_ = StripSpaces(value);
 				searchChanged_ = true;
@@ -1397,7 +1397,7 @@ void MainScreen::update() {
 
 UI::EventReturn MainScreen::OnLoadFile(UI::EventParams &e) {
 	if (System_GetPropertyBool(SYSPROP_HAS_FILE_BROWSER)) {
-		auto mm = GetI18NCategory(I18NCat::MAINMENU);
+		auto mm = GetI18NCategory<I18NCat::MAINMENU>();
 		System_BrowseForFile(GetRequesterToken(), mm->T("Load"), BrowseFileType::BOOTABLE, [](const std::string &value, int) {
 			System_PostUIMessage(UIMessage::REQUEST_GAME_BOOT, value);
 		});
@@ -1592,8 +1592,8 @@ void MainScreen::dialogFinished(const Screen *dialog, DialogResult result) {
 void UmdReplaceScreen::CreateViews() {
 	using namespace UI;
 	Margins actionMenuMargins(0, 100, 15, 0);
-	auto mm = GetI18NCategory(I18NCat::MAINMENU);
-	auto di = GetI18NCategory(I18NCat::DIALOG);
+	auto mm = GetI18NCategory<I18NCat::MAINMENU>();
+	auto di = GetI18NCategory<I18NCat::DIALOG>();
 
 	TabHolder *leftColumn = new TabHolder(ORIENT_HORIZONTAL, 64, new LinearLayoutParams(FILL_PARENT, WRAP_CONTENT, 1.0));
 	leftColumn->SetTag("UmdReplace");
@@ -1632,7 +1632,7 @@ void UmdReplaceScreen::CreateViews() {
 
 	if (System_GetPropertyBool(SYSPROP_HAS_FILE_BROWSER)) {
 		rightColumnItems->Add(new Choice(mm->T("Load", "Load...")))->OnClick.Add([&](UI::EventParams &e) {
-			auto mm = GetI18NCategory(I18NCat::MAINMENU);
+			auto mm = GetI18NCategory<I18NCat::MAINMENU>();
 			System_BrowseForFile(GetRequesterToken(), mm->T("Load"), BrowseFileType::BOOTABLE, [&](const std::string &value, int) {
 				__UmdReplace(Path(value));
 				TriggerFinish(DR_OK);
@@ -1675,8 +1675,8 @@ UI::EventReturn UmdReplaceScreen::OnGameSettings(UI::EventParams &e) {
 void GridSettingsScreen::CreatePopupContents(UI::ViewGroup *parent) {
 	using namespace UI;
 
-	auto di = GetI18NCategory(I18NCat::DIALOG);
-	auto sy = GetI18NCategory(I18NCat::SYSTEM);
+	auto di = GetI18NCategory<I18NCat::DIALOG>();
+	auto sy = GetI18NCategory<I18NCat::SYSTEM>();
 
 	ScrollView *scroll = new ScrollView(ORIENT_VERTICAL, new LinearLayoutParams(FILL_PARENT, WRAP_CONTENT, 1.0f));
 	LinearLayout *items = new LinearLayoutList(ORIENT_VERTICAL);

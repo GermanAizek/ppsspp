@@ -495,7 +495,7 @@ namespace SaveState
 			return StringFromFormat("%s (%c)", title.c_str(), slotChar);
 		}
 		if (detectSlot(UNDO_STATE_EXTENSION)) {
-			auto sy = GetI18NCategory(I18NCat::SYSTEM);
+			auto sy = GetI18NCategory<I18NCat::SYSTEM>();
 			// Allow the number to be positioned where it makes sense.
 			std::string undo(sy->T("undo %c"));
 			return title + " (" + StringFromFormat(undo.c_str(), slotChar) + ")";
@@ -516,7 +516,7 @@ namespace SaveState
 		}
 
 		// The file can't be loaded - let's note that.
-		auto sy = GetI18NCategory(I18NCat::SYSTEM);
+		auto sy = GetI18NCategory<I18NCat::SYSTEM>();
 		return filename.GetFilename() + " " + std::string(sy->T("(broken)"));
 	}
 
@@ -604,7 +604,7 @@ namespace SaveState
 			}
 		} else {
 			if (callback) {
-				auto sy = GetI18NCategory(I18NCat::SYSTEM);
+				auto sy = GetI18NCategory<I18NCat::SYSTEM>();
 				callback(Status::FAILURE, sy->T("Failed to load state. Error in the file system."), cbUserData);
 			}
 		}
@@ -614,7 +614,7 @@ namespace SaveState
 	{
 		if (g_Config.sStateLoadUndoGame != GenerateFullDiscId(gameFilename)) {
 			if (callback) {
-				auto sy = GetI18NCategory(I18NCat::SYSTEM);
+				auto sy = GetI18NCategory<I18NCat::SYSTEM>();
 				callback(Status::FAILURE, sy->T("Error: load undo state is from a different game"), cbUserData);
 			}
 			return false;
@@ -626,7 +626,7 @@ namespace SaveState
 			return true;
 		} else {
 			if (callback) {
-				auto sy = GetI18NCategory(I18NCat::SYSTEM);
+				auto sy = GetI18NCategory<I18NCat::SYSTEM>();
 				callback(Status::FAILURE, sy->T("Failed to load state for load undo. Error in the file system."), cbUserData);
 			}
 			return false;
@@ -666,7 +666,7 @@ namespace SaveState
 			Save(fn.WithExtraExtension(".tmp"), slot, renameCallback, cbUserData);
 		} else {
 			if (callback) {
-				auto sy = GetI18NCategory(I18NCat::SYSTEM);
+				auto sy = GetI18NCategory<I18NCat::SYSTEM>();
 				callback(Status::FAILURE, sy->T("Failed to save state. Error in the file system."), cbUserData);
 			}
 		}
@@ -882,7 +882,7 @@ namespace SaveState
 	}
 
 	static Status TriggerLoadWarnings(std::string &callbackMessage) {
-		auto sc = GetI18NCategory(I18NCat::SCREEN);
+		auto sc = GetI18NCategory<I18NCat::SCREEN>();
 
 		if (g_Config.bHideStateWarnings)
 			return Status::SUCCESS;
@@ -938,7 +938,7 @@ namespace SaveState
 			std::string callbackMessage;
 			std::string title;
 
-			auto sc = GetI18NCategory(I18NCat::SCREEN);
+			auto sc = GetI18NCategory<I18NCat::SCREEN>();
 			const char *i18nLoadFailure = sc->T_cstr("Failed to load state");
 			const char *i18nSaveFailure = sc->T_cstr("Failed to save state");
 

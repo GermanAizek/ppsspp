@@ -293,8 +293,8 @@ void ProductView::CreateViews() {
 	Add(new TextView(entry_.name));
 	Add(new TextView(entry_.author));
 
-	auto st = GetI18NCategory(I18NCat::STORE);
-	auto di = GetI18NCategory(I18NCat::DIALOG);
+	auto st = GetI18NCategory<I18NCat::STORE>();
+	auto di = GetI18NCategory<I18NCat::DIALOG>();
 	wasInstalled_ = IsGameInstalled();
 	bool isDownloading = g_GameManager.IsDownloading(DownloadURL());
 	if (!wasInstalled_) {
@@ -479,8 +479,8 @@ void StoreScreen::CreateViews() {
 
 	root_ = new LinearLayout(ORIENT_VERTICAL);
 	
-	auto di = GetI18NCategory(I18NCat::DIALOG);
-	auto mm = GetI18NCategory(I18NCat::MAINMENU);
+	auto di = GetI18NCategory<I18NCat::DIALOG>();
+	auto mm = GetI18NCategory<I18NCat::MAINMENU>();
 
 	// Top bar
 	LinearLayout *topBar = root_->Add(new LinearLayout(ORIENT_HORIZONTAL));
@@ -492,7 +492,7 @@ void StoreScreen::CreateViews() {
 
 	LinearLayout *content;
 	if (connectionError_ || loading_) {
-		auto st = GetI18NCategory(I18NCat::STORE);
+		auto st = GetI18NCategory<I18NCat::STORE>();
 		content = new LinearLayout(ORIENT_VERTICAL, new LinearLayoutParams(FILL_PARENT, FILL_PARENT, 1.0f));
 		content->Add(new TextView(loading_ ? std::string(st->T("Loading...")) : StringFromFormat("%s: %d", st->T_cstr("Connection Error"), resultCode_)));
 		if (!loading_) {

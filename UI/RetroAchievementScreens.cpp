@@ -45,7 +45,7 @@ AudioFileChooser::AudioFileChooser(RequesterToken token, std::string *value, std
 		if (sample) {
 			g_BackgroundAudio.SFX().UpdateSample(sound, sample);
 		} else {
-			auto au = GetI18NCategory(I18NCat::AUDIO);
+			auto au = GetI18NCategory<I18NCat::AUDIO>();
 			g_OSD.Show(OSDType::MESSAGE_ERROR, au->T("Audio file format not supported. Must be WAV."));
 			value->clear();
 		}
@@ -59,7 +59,7 @@ AudioFileChooser::AudioFileChooser(RequesterToken token, std::string *value, std
 }
 
 void RetroAchievementsListScreen::CreateTabs() {
-	auto ac = GetI18NCategory(I18NCat::ACHIEVEMENTS);
+	auto ac = GetI18NCategory<I18NCat::ACHIEVEMENTS>();
 
 	UI::LinearLayout *achievements = AddTab("Achievements", ac->T("Achievements"));
 	achievements->SetSpacing(5.0f);
@@ -88,8 +88,8 @@ inline const char *AchievementBucketTitle(int bucketType) {
 }
 
 void RetroAchievementsListScreen::CreateAchievementsTab(UI::ViewGroup *achievements) {
-	auto di = GetI18NCategory(I18NCat::DIALOG);
-	auto ac = GetI18NCategory(I18NCat::ACHIEVEMENTS);
+	auto di = GetI18NCategory<I18NCat::DIALOG>();
+	auto ac = GetI18NCategory<I18NCat::ACHIEVEMENTS>();
 
 	using namespace UI;
 
@@ -123,8 +123,8 @@ void RetroAchievementsListScreen::CreateAchievementsTab(UI::ViewGroup *achieveme
 }
 
 void RetroAchievementsListScreen::CreateLeaderboardsTab(UI::ViewGroup *viewGroup) {
-	auto di = GetI18NCategory(I18NCat::DIALOG);
-	auto ac = GetI18NCategory(I18NCat::ACHIEVEMENTS);
+	auto di = GetI18NCategory<I18NCat::DIALOG>();
+	auto ac = GetI18NCategory<I18NCat::ACHIEVEMENTS>();
 
 	using namespace UI;
 
@@ -151,7 +151,7 @@ void RetroAchievementsListScreen::CreateLeaderboardsTab(UI::ViewGroup *viewGroup
 }
 
 void RetroAchievementsListScreen::CreateStatisticsTab(UI::ViewGroup *viewGroup) {
-	auto ac = GetI18NCategory(I18NCat::ACHIEVEMENTS);
+	auto ac = GetI18NCategory<I18NCat::ACHIEVEMENTS>();
 
 	using namespace UI;
 
@@ -195,7 +195,7 @@ void RetroAchievementsLeaderboardScreen::FetchEntries() {
 }
 
 void RetroAchievementsLeaderboardScreen::CreateTabs() {
-	auto ac = GetI18NCategory(I18NCat::ACHIEVEMENTS);
+	auto ac = GetI18NCategory<I18NCat::ACHIEVEMENTS>();
 	const rc_client_leaderboard_t *leaderboard = rc_client_get_leaderboard_info(Achievements::GetClient(), leaderboardID_);
 
 	using namespace UI;
@@ -247,9 +247,9 @@ void RetroAchievementsLeaderboardScreen::update() {
 RetroAchievementsSettingsScreen::~RetroAchievementsSettingsScreen() {}
 
 void RetroAchievementsSettingsScreen::CreateTabs() {
-	auto ac = GetI18NCategory(I18NCat::ACHIEVEMENTS);
-	auto di = GetI18NCategory(I18NCat::DIALOG);
-	auto sy = GetI18NCategory(I18NCat::SYSTEM);
+	auto ac = GetI18NCategory<I18NCat::ACHIEVEMENTS>();
+	auto di = GetI18NCategory<I18NCat::DIALOG>();
+	auto sy = GetI18NCategory<I18NCat::SYSTEM>();
 
 	using namespace UI;
 
@@ -268,8 +268,8 @@ void RetroAchievementsSettingsScreen::sendMessage(UIMessage message, const char 
 }
 
 void RetroAchievementsSettingsScreen::CreateAccountTab(UI::ViewGroup *viewGroup) {
-	auto ac = GetI18NCategory(I18NCat::ACHIEVEMENTS);
-	auto di = GetI18NCategory(I18NCat::DIALOG);
+	auto ac = GetI18NCategory<I18NCat::ACHIEVEMENTS>();
+	auto di = GetI18NCategory<I18NCat::DIALOG>();
 
 	using namespace UI;
 
@@ -352,8 +352,8 @@ void RetroAchievementsSettingsScreen::CreateAccountTab(UI::ViewGroup *viewGroup)
 }
 
 void RetroAchievementsSettingsScreen::CreateCustomizeTab(UI::ViewGroup *viewGroup) {
-	auto ac = GetI18NCategory(I18NCat::ACHIEVEMENTS);
-	auto a = GetI18NCategory(I18NCat::AUDIO);
+	auto ac = GetI18NCategory<I18NCat::ACHIEVEMENTS>();
+	auto a = GetI18NCategory<I18NCat::AUDIO>();
 
 	using namespace UI;
 	viewGroup->Add(new ItemHeader(ac->T("Sound Effects")));
@@ -377,8 +377,8 @@ void RetroAchievementsSettingsScreen::CreateCustomizeTab(UI::ViewGroup *viewGrou
 }
 
 void RetroAchievementsSettingsScreen::CreateDeveloperToolsTab(UI::ViewGroup *viewGroup) {
-	auto ac = GetI18NCategory(I18NCat::ACHIEVEMENTS);
-	auto di = GetI18NCategory(I18NCat::DIALOG);
+	auto ac = GetI18NCategory<I18NCat::ACHIEVEMENTS>();
+	auto di = GetI18NCategory<I18NCat::DIALOG>();
 
 	using namespace UI;
 	viewGroup->Add(new ItemHeader(di->T("Settings")));

@@ -100,7 +100,7 @@ MemStickScreen::MemStickScreen(bool initialSetup)
 }
 
 static void AddExplanation(UI::ViewGroup *viewGroup, MemStickScreen::Choice choice, UI::View *extraView = nullptr) {
-	auto iz = GetI18NCategory(I18NCat::MEMSTICK);
+	auto iz = GetI18NCategory<I18NCat::MEMSTICK>();
 	using namespace UI;
 
 	int flags = FLAG_WRAP_TEXT;
@@ -156,8 +156,8 @@ static void AddExplanation(UI::ViewGroup *viewGroup, MemStickScreen::Choice choi
 void MemStickScreen::CreateViews() {
 	using namespace UI;
 
-	auto di = GetI18NCategory(I18NCat::DIALOG);
-	auto iz = GetI18NCategory(I18NCat::MEMSTICK);
+	auto di = GetI18NCategory<I18NCat::DIALOG>();
+	auto iz = GetI18NCategory<I18NCat::MEMSTICK>();
 
 	Margins actionMenuMargins(15, 0, 15, 0);
 
@@ -304,10 +304,10 @@ UI::EventReturn MemStickScreen::OnConfirmClick(UI::EventParams &params) {
 UI::EventReturn MemStickScreen::SetFolderManually(UI::EventParams &params) {
 	// The old way, from before scoped storage.
 #if PPSSPP_PLATFORM(ANDROID) || PPSSPP_PLATFORM(SWITCH)
-	auto sy = GetI18NCategory(I18NCat::SYSTEM);
+	auto sy = GetI18NCategory<I18NCat::SYSTEM>();
 	System_InputBoxGetString(GetRequesterToken(), sy->T("Memory Stick Folder"), g_Config.memStickDirectory.ToString(), [&](const std::string &value, int) {
-		auto sy = GetI18NCategory(I18NCat::SYSTEM);
-		auto di = GetI18NCategory(I18NCat::DIALOG);
+		auto sy = GetI18NCategory<I18NCat::SYSTEM>();
+		auto di = GetI18NCategory<I18NCat::DIALOG>();
 
 		std::string newPath = value;
 		size_t pos = newPath.find_last_not_of("/");
@@ -417,13 +417,13 @@ UI::EventReturn MemStickScreen::UseStorageRoot(UI::EventParams &params) {
 }
 
 UI::EventReturn MemStickScreen::Browse(UI::EventParams &params) {
-	auto mm = GetI18NCategory(I18NCat::MAINMENU);
+	auto mm = GetI18NCategory<I18NCat::MAINMENU>();
 	System_BrowseForFolder(GetRequesterToken(), mm->T("Choose folder"), g_Config.memStickDirectory, [=](const std::string &value, int) {
 		Path pendingMemStickFolder = Path(value);
 		INFO_LOG(SYSTEM, "Got folder: '%s'", pendingMemStickFolder.c_str());
 		// Browse finished. Let's pop up the confirmation dialog.
 		if (!pendingMemStickFolder.empty() && pendingMemStickFolder == g_Config.memStickDirectory && File::IsDirectory(pendingMemStickFolder)) {
-			auto iz = GetI18NCategory(I18NCat::MEMSTICK);
+			auto iz = GetI18NCategory<I18NCat::MEMSTICK>();
 			// Not sure how this could happen, but let's go with it.
 			g_OSD.Show(OSDType::MESSAGE_SUCCESS, iz->T("Done!"));
 			done_ = true;
@@ -473,8 +473,8 @@ ConfirmMemstickMoveScreen::~ConfirmMemstickMoveScreen() {
 
 void ConfirmMemstickMoveScreen::CreateViews() {
 	using namespace UI;
-	auto sy = GetI18NCategory(I18NCat::SYSTEM);
-	auto iz = GetI18NCategory(I18NCat::MEMSTICK);
+	auto sy = GetI18NCategory<I18NCat::SYSTEM>();
+	auto iz = GetI18NCategory<I18NCat::MEMSTICK>();
 
 	root_ = new LinearLayout(ORIENT_HORIZONTAL);
 
@@ -528,7 +528,7 @@ void ConfirmMemstickMoveScreen::CreateViews() {
 			leftColumn->Add(new CheckBox(&moveData_, iz->T("Move Data")))->OnClick.Handle(this, &ConfirmMemstickMoveScreen::OnMoveDataClick);
 		}
 
-		auto di = GetI18NCategory(I18NCat::DIALOG);
+		auto di = GetI18NCategory<I18NCat::DIALOG>();
 		leftColumn->Add(new Choice(di->T("OK")))->OnClick.Handle(this, &ConfirmMemstickMoveScreen::OnConfirm);
 		leftColumn->Add(new Choice(di->T("Back")))->OnClick.Handle<UIScreen>(this, &UIScreen::OnBack);
 	}
@@ -541,7 +541,7 @@ UI::EventReturn ConfirmMemstickMoveScreen::OnMoveDataClick(UI::EventParams &para
 
 void ConfirmMemstickMoveScreen::update() {
 	UIDialogScreenWithBackground::update();
-	auto iz = GetI18NCategory(I18NCat::MEMSTICK);
+	auto iz = GetI18NCategory<I18NCat::MEMSTICK>();
 
 	if (moveDataTask_) {
 		if (progressView_) {
@@ -592,7 +592,7 @@ UI::EventReturn ConfirmMemstickMoveScreen::OnConfirm(UI::EventParams &params) {
 }
 
 void ConfirmMemstickMoveScreen::FinishFolderMove() {
-	auto ms = GetI18NCategory(I18NCat::MEMSTICK);
+	auto ms = GetI18NCategory<I18NCat::MEMSTICK>();
 
 	Path oldMemstickFolder = g_Config.memStickDirectory;
 

@@ -248,7 +248,7 @@ void OSXOpenURL(const char *url) {
 }
 
 -(NSMenu *)makeFileSubmenu {
-    std::shared_ptr<I18NCategory> desktopUILocalization = GetI18NCategory(I18NCat::DESKTOPUI);
+    std::shared_ptr<I18NCategory> desktopUILocalization = GetI18NCategory<I18NCat::DESKTOPUI>();
 #define DESKTOPUI_LOCALIZED(key) @(UnescapeMenuString(desktopUILocalization->T_cstr(key), nil).c_str())
 
     NSMenu *menu = [[NSMenu alloc] initWithTitle:DESKTOPUI_LOCALIZED("File")];
@@ -270,9 +270,9 @@ void OSXOpenURL(const char *url) {
 }
 
 -(NSMenu *)makeGraphicsMenu {    
-    std::shared_ptr<I18NCategory> mainSettingsLocalization = GetI18NCategory(I18NCat::MAINSETTINGS);
-    std::shared_ptr<I18NCategory> graphicsLocalization = GetI18NCategory(I18NCat::GRAPHICS);
-    std::shared_ptr<I18NCategory> desktopUILocalization = GetI18NCategory(I18NCat::DESKTOPUI);
+    std::shared_ptr<I18NCategory> mainSettingsLocalization = GetI18NCategory<I18NCat::MAINSETTINGS>();
+    std::shared_ptr<I18NCategory> graphicsLocalization = GetI18NCategory<I18NCat::GRAPHICS>();
+    std::shared_ptr<I18NCategory> desktopUILocalization = GetI18NCategory<I18NCat::DESKTOPUI>();
 
     NSMenu *parent = [[NSMenu alloc] initWithTitle:@(mainSettingsLocalization->T_cstr("Graphics"))];
     NSMenu *backendsMenu = [[NSMenu alloc] init];
@@ -332,7 +332,7 @@ void OSXOpenURL(const char *url) {
 }
 
 -(NSMenu *)makeEmulationMenu {
-    std::shared_ptr<I18NCategory> desktopUILocalization = GetI18NCategory(I18NCat::DESKTOPUI);
+    std::shared_ptr<I18NCategory> desktopUILocalization = GetI18NCategory<I18NCat::DESKTOPUI>();
 #define DESKTOPUI_LOCALIZED(key) @(UnescapeMenuString(desktopUILocalization->T_cstr(key), nil).c_str())
 
     NSMenu *parent = [[NSMenu alloc] initWithTitle:DESKTOPUI_LOCALIZED("Emulation")];
@@ -351,8 +351,8 @@ void OSXOpenURL(const char *url) {
 }
 
 -(NSMenu *)makeDebugMenu {
-    std::shared_ptr<I18NCategory> sysInfoLocalization = GetI18NCategory(I18NCat::SYSINFO);
-    std::shared_ptr<I18NCategory> desktopUILocalization = GetI18NCategory(I18NCat::DESKTOPUI);
+    std::shared_ptr<I18NCategory> sysInfoLocalization = GetI18NCategory<I18NCat::SYSINFO>();
+    std::shared_ptr<I18NCategory> desktopUILocalization = GetI18NCategory<I18NCat::DESKTOPUI>();
 #define DESKTOPUI_LOCALIZED(key) @(UnescapeMenuString(desktopUILocalization->T_cstr(key), nil).c_str())
 
     NSMenu *parent = [[NSMenu alloc] initWithTitle:DESKTOPUI_LOCALIZED("Debugging")];
@@ -433,9 +433,9 @@ void OSXOpenURL(const char *url) {
 }
 
 -(void)breakAction: (NSMenuItem *)item {
-   std::shared_ptr<I18NCategory> desktopUILocalization = GetI18NCategory(I18NCat::DESKTOPUI);
+   std::shared_ptr<I18NCategory> desktopUILocalization = GetI18NCategory<I18NCat::DESKTOPUI>();
 #define DESKTOPUI_LOCALIZED(key) @(UnescapeMenuString(desktopUILocalization->T_cstr(key), nil).c_str())
-   std::shared_ptr<I18NCategory> developerUILocalization = GetI18NCategory(I18NCat::DEVELOPER);
+   std::shared_ptr<I18NCategory> developerUILocalization = GetI18NCategory<I18NCat::DEVELOPER>();
 #define DEVELOPERUI_LOCALIZED(key) @(developerUILocalization->T_cstr(key))
     if (Core_IsStepping()) {
         Core_EnableStepping(false, "ui.break");
@@ -619,7 +619,7 @@ TOGGLE_METHOD(FullScreen, g_Config.bFullScreen, System_MakeRequest(SystemRequest
 }
 
 -(void)addOpenRecentlyItem {
-    std::shared_ptr<I18NCategory> mainmenuLocalization = GetI18NCategory(I18NCat::MAINMENU);
+    std::shared_ptr<I18NCategory> mainmenuLocalization = GetI18NCategory<I18NCat::MAINMENU>();
 #define MAINMENU_LOCALIZED(key) @(mainmenuLocalization->T_cstr(key))
 
     std::vector<std::string> recentIsos = g_Config.RecentIsos();

@@ -162,7 +162,7 @@ static bool UsingHardwareTextureScaling() {
 static std::string TextureTranslateName(std::string_view value) {
 	const TextureShaderInfo *info = GetTextureShaderInfo(value);
 	if (info) {
-		auto ts = GetI18NCategory(I18NCat::TEXTURESHADERS);
+		auto ts = GetI18NCategory<I18NCat::TEXTURESHADERS>();
 		return std::string(ts->T(value, info ? info->name.c_str() : value));
 	} else {
 		return std::string(value);
@@ -209,7 +209,7 @@ bool PathToVisualUsbPath(Path path, std::string &outPath) {
 static std::string PostShaderTranslateName(std::string_view value) {
 	const ShaderInfo *info = GetPostShaderInfo(value);
 	if (info) {
-		auto ps = GetI18NCategory(I18NCat::POSTSHADERS);
+		auto ps = GetI18NCategory<I18NCat::POSTSHADERS>();
 		return std::string(ps->T(value, info ? info->name : value));
 	} else {
 		return std::string(value);
@@ -232,7 +232,7 @@ void GameSettingsScreen::PreCreateViews() {
 
 void GameSettingsScreen::CreateTabs() {
 	using namespace UI;
-	auto ms = GetI18NCategory(I18NCat::MAINSETTINGS);
+	auto ms = GetI18NCategory<I18NCat::MAINSETTINGS>();
 
 	LinearLayout *graphicsSettings = AddTab("GameSettingsGraphics", ms->T("Graphics"));
 	CreateGraphicsSettings(graphicsSettings);
@@ -262,8 +262,8 @@ void GameSettingsScreen::CreateTabs() {
 
 // Graphics
 void GameSettingsScreen::CreateGraphicsSettings(UI::ViewGroup *graphicsSettings) {
-	auto gr = GetI18NCategory(I18NCat::GRAPHICS);
-	auto vr = GetI18NCategory(I18NCat::VR);
+	auto gr = GetI18NCategory<I18NCat::GRAPHICS>();
+	auto vr = GetI18NCategory<I18NCat::VR>();
 
 	using namespace UI;
 
@@ -609,9 +609,9 @@ void GameSettingsScreen::CreateGraphicsSettings(UI::ViewGroup *graphicsSettings)
 void GameSettingsScreen::CreateAudioSettings(UI::ViewGroup *audioSettings) {
 	using namespace UI;
 
-	auto a = GetI18NCategory(I18NCat::AUDIO);
-	auto ac = GetI18NCategory(I18NCat::ACHIEVEMENTS);
-	auto ms = GetI18NCategory(I18NCat::MAINSETTINGS);
+	auto a = GetI18NCategory<I18NCat::AUDIO>();
+	auto ac = GetI18NCategory<I18NCat::ACHIEVEMENTS>();
+	auto ms = GetI18NCategory<I18NCat::MAINSETTINGS>();
 
 	audioSettings->Add(new ItemHeader(ms->T("Audio")));
 	CheckBox *enableSound = audioSettings->Add(new CheckBox(&g_Config.bEnableSound,a->T("Enable Sound")));
@@ -677,9 +677,9 @@ void GameSettingsScreen::CreateAudioSettings(UI::ViewGroup *audioSettings) {
 void GameSettingsScreen::CreateControlsSettings(UI::ViewGroup *controlsSettings) {
 	using namespace UI;
 
-	auto co = GetI18NCategory(I18NCat::CONTROLS);
-	auto ms = GetI18NCategory(I18NCat::MAINSETTINGS);
-	auto di = GetI18NCategory(I18NCat::DIALOG);
+	auto co = GetI18NCategory<I18NCat::CONTROLS>();
+	auto ms = GetI18NCategory<I18NCat::MAINSETTINGS>();
+	auto di = GetI18NCategory<I18NCat::DIALOG>();
 
 	int deviceType = System_GetPropertyInt(SYSPROP_DEVICE_TYPE);
 
@@ -698,7 +698,7 @@ void GameSettingsScreen::CreateControlsSettings(UI::ViewGroup *controlsSettings)
 	if (System_GetPropertyBool(SYSPROP_HAS_ACCELEROMETER)) {
 		// Show the tilt type on the item.
 		Choice *customizeTilt = controlsSettings->Add(new ChoiceWithCallbackValueDisplay(co->T("Tilt control setup"), []() -> std::string {
-			auto co = GetI18NCategory(I18NCat::CONTROLS);
+			auto co = GetI18NCategory<I18NCat::CONTROLS>();
 			if ((u32)g_Config.iTiltInputType < (u32)g_numTiltTypes) {
 				return std::string(co->T(g_tiltTypes[g_Config.iTiltInputType]));
 			}
@@ -831,7 +831,7 @@ MacAddressChooser::MacAddressChooser(RequesterToken token, Path gamePath_, std::
 		layoutParams_->width = FILL_PARENT;
 		layoutParams_->height = ITEM_HEIGHT;
 	}
-	auto n = GetI18NCategory(I18NCat::NETWORKING);
+	auto n = GetI18NCategory<I18NCat::NETWORKING>();
 
 	std::string initialValue = *value;
 	Add(new PopupTextInputChoice(token, value, title, g_Config.sMACAddress, 17, screenManager, new LinearLayoutParams(1.0f)))->OnChange.Add([=](UI::EventParams &e) {
@@ -843,8 +843,8 @@ MacAddressChooser::MacAddressChooser(RequesterToken token, Path gamePath_, std::
 		return UI::EVENT_DONE;
 	});
 	Add(new Choice(n->T("Randomize"), new LinearLayoutParams(WRAP_CONTENT, ITEM_HEIGHT)))->OnClick.Add([=](UI::EventParams &) {
-		auto n = GetI18NCategory(I18NCat::NETWORKING);
-		auto di = GetI18NCategory(I18NCat::DIALOG);
+		auto n = GetI18NCategory<I18NCat::NETWORKING>();
+		auto di = GetI18NCategory<I18NCat::DIALOG>();
 
 		std::string_view confirmMessage = n->T("ChangeMacSaveConfirm", "Generate a new MAC address?");
 		std::string_view warningMessage = n->T("ChangeMacSaveWarning", "Some games verify the MAC address when loading savedata, so this may break old saves.");
@@ -866,8 +866,8 @@ MacAddressChooser::MacAddressChooser(RequesterToken token, Path gamePath_, std::
 void GameSettingsScreen::CreateNetworkingSettings(UI::ViewGroup *networkingSettings) {
 	using namespace UI;
 
-	auto n = GetI18NCategory(I18NCat::NETWORKING);
-	auto ms = GetI18NCategory(I18NCat::MAINSETTINGS);
+	auto n = GetI18NCategory<I18NCat::NETWORKING>();
+	auto ms = GetI18NCategory<I18NCat::MAINSETTINGS>();
 
 	networkingSettings->Add(new ItemHeader(ms->T("Networking")));
 
@@ -948,7 +948,7 @@ void GameSettingsScreen::CreateNetworkingSettings(UI::ViewGroup *networkingSetti
 	}
 #endif
 
-	auto di = GetI18NCategory(I18NCat::DIALOG);
+	auto di = GetI18NCategory<I18NCat::DIALOG>();
 
 	networkingSettings->Add(new ItemHeader(n->T("Misc", "Misc (default = compatibility)")));
 	networkingSettings->Add(new PopupSliderChoice(&g_Config.iPortOffset, 0, 60000, 10000, n->T("Port offset", "Port offset (0 = PSP compatibility)"), 100, screenManager()));
@@ -959,11 +959,11 @@ void GameSettingsScreen::CreateNetworkingSettings(UI::ViewGroup *networkingSetti
 void GameSettingsScreen::CreateToolsSettings(UI::ViewGroup *tools) {
 	using namespace UI;
 
-	auto sa = GetI18NCategory(I18NCat::SAVEDATA);
-	auto sy = GetI18NCategory(I18NCat::SYSTEM);
-	auto ms = GetI18NCategory(I18NCat::MAINSETTINGS);
-	auto dev = GetI18NCategory(I18NCat::DEVELOPER);
-	auto ri = GetI18NCategory(I18NCat::REMOTEISO);
+	auto sa = GetI18NCategory<I18NCat::SAVEDATA>();
+	auto sy = GetI18NCategory<I18NCat::SYSTEM>();
+	auto ms = GetI18NCategory<I18NCat::MAINSETTINGS>();
+	auto dev = GetI18NCategory<I18NCat::DEVELOPER>();
+	auto ri = GetI18NCategory<I18NCat::REMOTEISO>();
 
 	tools->Add(new ItemHeader(ms->T("Tools")));
 
@@ -995,11 +995,11 @@ void GameSettingsScreen::CreateToolsSettings(UI::ViewGroup *tools) {
 void GameSettingsScreen::CreateSystemSettings(UI::ViewGroup *systemSettings) {
 	using namespace UI;
 
-	auto sy = GetI18NCategory(I18NCat::SYSTEM);
-	auto di = GetI18NCategory(I18NCat::DIALOG);
-	auto vr = GetI18NCategory(I18NCat::VR);
-	auto th = GetI18NCategory(I18NCat::THEMES);
-	auto psps = GetI18NCategory(I18NCat::PSPSETTINGS);  // TODO: Should move more into this section.
+	auto sy = GetI18NCategory<I18NCat::SYSTEM>();
+	auto di = GetI18NCategory<I18NCat::DIALOG>();
+	auto vr = GetI18NCategory<I18NCat::VR>();
+	auto th = GetI18NCategory<I18NCat::THEMES>();
+	auto psps = GetI18NCategory<I18NCat::PSPSETTINGS>();  // TODO: Should move more into this section.
 
 	systemSettings->Add(new ItemHeader(sy->T("UI")));
 
@@ -1013,7 +1013,7 @@ void GameSettingsScreen::CreateSystemSettings(UI::ViewGroup *systemSettings) {
 	};
 
 	systemSettings->Add(new ChoiceWithValueDisplay(&g_Config.sLanguageIni, sy->T("Language"), langCodeToName))->OnClick.Add([&](UI::EventParams &e) {
-		auto sy = GetI18NCategory(I18NCat::SYSTEM);
+		auto sy = GetI18NCategory<I18NCat::SYSTEM>();
 		auto langScreen = new NewLanguageScreen(sy->T("Language"));
 		langScreen->OnChoice.Add([&](UI::EventParams &e) {
 			screenManager()->RecreateAllViews();
@@ -1179,7 +1179,7 @@ void GameSettingsScreen::CreateSystemSettings(UI::ViewGroup *systemSettings) {
 
 #if PPSSPP_PLATFORM(ANDROID)
 	if (System_GetPropertyInt(SYSPROP_DEVICE_TYPE) == DEVICE_TYPE_MOBILE) {
-		auto co = GetI18NCategory(I18NCat::CONTROLS);
+		auto co = GetI18NCategory<I18NCat::CONTROLS>();
 
 		static const char *screenRotation[] = { "Auto", "Landscape", "Portrait", "Landscape Reversed", "Portrait Reversed", "Landscape Auto" };
 		PopupMultiChoice *rot = systemSettings->Add(new PopupMultiChoice(&g_Config.iScreenRotation, co->T("Screen Rotation"), screenRotation, 0, ARRAY_SIZE(screenRotation), I18NCat::CONTROLS, screenManager()));
@@ -1238,7 +1238,7 @@ void GameSettingsScreen::CreateSystemSettings(UI::ViewGroup *systemSettings) {
 void GameSettingsScreen::CreateVRSettings(UI::ViewGroup *vrSettings) {
 	using namespace UI;
 
-	auto vr = GetI18NCategory(I18NCat::VR);
+	auto vr = GetI18NCategory<I18NCat::VR>();
 
 	vrSettings->Add(new ItemHeader(vr->T("Virtual reality")));
 	vrSettings->Add(new CheckBox(&g_Config.bEnableVR, vr->T("Virtual reality")));
@@ -1284,7 +1284,7 @@ UI::EventReturn GameSettingsScreen::OnScreenRotation(UI::EventParams &e) {
 }
 
 UI::EventReturn GameSettingsScreen::OnAdhocGuides(UI::EventParams &e) {
-	auto n = GetI18NCategory(I18NCat::NETWORKING);
+	auto n = GetI18NCategory<I18NCat::NETWORKING>();
 	std::string url(n->T("MultiplayerHowToURL", "https://github.com/hrydgard/ppsspp/wiki/How-to-play-multiplayer-games-with-PPSSPP"));
 	System_LaunchUrl(LaunchUrlType::BROWSER_URL, url.c_str());
 	return UI::EVENT_DONE;
@@ -1352,7 +1352,7 @@ UI::EventReturn GameSettingsScreen::OnSavePathMydoc(UI::EventParams &e) {
 UI::EventReturn GameSettingsScreen::OnSavePathOther(UI::EventParams &e) {
 	const Path &PPSSPPpath = File::GetExeDirectory();
 	if (otherinstalled_) {
-		auto di = GetI18NCategory(I18NCat::DIALOG);
+		auto di = GetI18NCategory<I18NCat::DIALOG>();
 		std::string initialPath = g_Config.memStickDirectory.ToCString();
 		std::string folder = W32Util::BrowseForFolder(MainWindow::GetHWND(), di->T("Choose PPSSPP save folder"), initialPath);
 		if (folder.size()) {
@@ -1391,7 +1391,7 @@ UI::EventReturn GameSettingsScreen::OnChangeBackground(UI::EventParams &e) {
 		UIBackgroundShutdown();
 		RecreateViews();
 	} else {
-		auto sy = GetI18NCategory(I18NCat::SYSTEM);
+		auto sy = GetI18NCategory<I18NCat::SYSTEM>();
 		System_BrowseForImage(GetRequesterToken(), sy->T("Set UI background..."), [=](const std::string &value, int) {
 			if (!value.empty()) {
 				Path path(value);
@@ -1503,7 +1503,7 @@ void GameSettingsScreen::CallbackMemstickFolder(bool yes) {
 			File::CreateFullPath(Path(pendingMemstickFolder_));
 		}
 		if (!File::WriteDataToFile(true, "1", 1, Path(testWriteFile))) {
-			auto sy = GetI18NCategory(I18NCat::SYSTEM);
+			auto sy = GetI18NCategory<I18NCat::SYSTEM>();
 			settingInfo_->Show(sy->T("ChangingMemstickPathInvalid", "That path couldn't be used to save Memory Stick files."), nullptr);
 			return;
 		}
@@ -1539,7 +1539,7 @@ void TriggerRestart(const char *why, bool editThenRestore, const Path &gamePath)
 UI::EventReturn GameSettingsScreen::OnRenderingBackend(UI::EventParams &e) {
 	// It only makes sense to show the restart prompt if the backend was actually changed.
 	if (g_Config.iGPUBackend != (int)GetGPUBackend()) {
-		auto di = GetI18NCategory(I18NCat::DIALOG);
+		auto di = GetI18NCategory<I18NCat::DIALOG>();
 		screenManager()->push(new PromptScreen(gamePath_, di->T("Changing this setting requires PPSSPP to restart."), di->T("Restart"), di->T("Cancel"), [=](bool yes) {
 			if (yes) {
 				TriggerRestart("GameSettingsScreen::RenderingBackendYes", editThenRestore_, gamePath_);
@@ -1555,7 +1555,7 @@ UI::EventReturn GameSettingsScreen::OnRenderingDevice(UI::EventParams &e) {
 	// It only makes sense to show the restart prompt if the device was actually changed.
 	std::string *deviceNameSetting = GPUDeviceNameSetting();
 	if (deviceNameSetting && *deviceNameSetting != GetGPUBackendDevice()) {
-		auto di = GetI18NCategory(I18NCat::DIALOG);
+		auto di = GetI18NCategory<I18NCat::DIALOG>();
 		screenManager()->push(new PromptScreen(gamePath_, di->T("Changing this setting requires PPSSPP to restart."), di->T("Restart"), di->T("Cancel"), [=](bool yes) {
 			// If the user ends up deciding not to restart, set the config back to the current backend
 			// so it doesn't get switched by accident.
@@ -1575,7 +1575,7 @@ UI::EventReturn GameSettingsScreen::OnRenderingDevice(UI::EventParams &e) {
 
 UI::EventReturn GameSettingsScreen::OnInflightFramesChoice(UI::EventParams &e) {
 	if (g_Config.iInflightFrames != prevInflightFrames_) {
-		auto di = GetI18NCategory(I18NCat::DIALOG);
+		auto di = GetI18NCategory<I18NCat::DIALOG>();
 		screenManager()->push(new PromptScreen(gamePath_, di->T("Changing this setting requires PPSSPP to restart."), di->T("Restart"), di->T("Cancel"), [=](bool yes) {
 			if (yes) {
 				TriggerRestart("GameSettingsScreen::InflightFramesYes", editThenRestore_, gamePath_);
@@ -1598,7 +1598,7 @@ UI::EventReturn GameSettingsScreen::OnMicDeviceChange(UI::EventParams& e) {
 }
 
 UI::EventReturn GameSettingsScreen::OnAudioDevice(UI::EventParams &e) {
-	auto a = GetI18NCategory(I18NCat::AUDIO);
+	auto a = GetI18NCategory<I18NCat::AUDIO>();
 	if (g_Config.sAudioDevice == a->T("Auto")) {
 		g_Config.sAudioDevice.clear();
 	}
@@ -1608,7 +1608,7 @@ UI::EventReturn GameSettingsScreen::OnAudioDevice(UI::EventParams &e) {
 
 UI::EventReturn GameSettingsScreen::OnChangeQuickChat0(UI::EventParams &e) {
 #if PPSSPP_PLATFORM(WINDOWS) || defined(USING_QT_UI) || PPSSPP_PLATFORM(ANDROID) || PPSSPP_PLATFORM(SWITCH)
-	auto n = GetI18NCategory(I18NCat::NETWORKING);
+	auto n = GetI18NCategory<I18NCat::NETWORKING>();
 	System_InputBoxGetString(GetRequesterToken(), n->T("Enter Quick Chat 1"), g_Config.sQuickChat0, [](const std::string &value, int) {
 		g_Config.sQuickChat0 = value;
 	});
@@ -1618,7 +1618,7 @@ UI::EventReturn GameSettingsScreen::OnChangeQuickChat0(UI::EventParams &e) {
 
 UI::EventReturn GameSettingsScreen::OnChangeQuickChat1(UI::EventParams &e) {
 #if PPSSPP_PLATFORM(WINDOWS) || defined(USING_QT_UI) || PPSSPP_PLATFORM(ANDROID) || PPSSPP_PLATFORM(SWITCH)
-	auto n = GetI18NCategory(I18NCat::NETWORKING);
+	auto n = GetI18NCategory<I18NCat::NETWORKING>();
 	System_InputBoxGetString(GetRequesterToken(), n->T("Enter Quick Chat 2"), g_Config.sQuickChat1, [](const std::string &value, int) {
 		g_Config.sQuickChat1 = value;
 	});
@@ -1628,7 +1628,7 @@ UI::EventReturn GameSettingsScreen::OnChangeQuickChat1(UI::EventParams &e) {
 
 UI::EventReturn GameSettingsScreen::OnChangeQuickChat2(UI::EventParams &e) {
 #if PPSSPP_PLATFORM(WINDOWS) || defined(USING_QT_UI) || PPSSPP_PLATFORM(ANDROID) || PPSSPP_PLATFORM(SWITCH)
-	auto n = GetI18NCategory(I18NCat::NETWORKING);
+	auto n = GetI18NCategory<I18NCat::NETWORKING>();
 	System_InputBoxGetString(GetRequesterToken(), n->T("Enter Quick Chat 3"), g_Config.sQuickChat2, [](const std::string &value, int) {
 		g_Config.sQuickChat2 = value;
 	});
@@ -1638,7 +1638,7 @@ UI::EventReturn GameSettingsScreen::OnChangeQuickChat2(UI::EventParams &e) {
 
 UI::EventReturn GameSettingsScreen::OnChangeQuickChat3(UI::EventParams &e) {
 #if PPSSPP_PLATFORM(WINDOWS) || defined(USING_QT_UI) || PPSSPP_PLATFORM(ANDROID) || PPSSPP_PLATFORM(SWITCH)
-	auto n = GetI18NCategory(I18NCat::NETWORKING);
+	auto n = GetI18NCategory<I18NCat::NETWORKING>();
 	System_InputBoxGetString(GetRequesterToken(), n->T("Enter Quick Chat 4"), g_Config.sQuickChat3, [](const std::string &value, int) {
 		g_Config.sQuickChat3 = value;
 	});
@@ -1648,7 +1648,7 @@ UI::EventReturn GameSettingsScreen::OnChangeQuickChat3(UI::EventParams &e) {
 
 UI::EventReturn GameSettingsScreen::OnChangeQuickChat4(UI::EventParams &e) {
 #if PPSSPP_PLATFORM(WINDOWS) || defined(USING_QT_UI) || PPSSPP_PLATFORM(ANDROID) || PPSSPP_PLATFORM(SWITCH)
-	auto n = GetI18NCategory(I18NCat::NETWORKING);
+	auto n = GetI18NCategory<I18NCat::NETWORKING>();
 	System_InputBoxGetString(GetRequesterToken(), n->T("Enter Quick Chat 5"), g_Config.sQuickChat4, [](const std::string &value, int) {
 		g_Config.sQuickChat4 = value;
 	});
@@ -1658,7 +1658,7 @@ UI::EventReturn GameSettingsScreen::OnChangeQuickChat4(UI::EventParams &e) {
 
 UI::EventReturn GameSettingsScreen::OnChangeNickname(UI::EventParams &e) {
 #if PPSSPP_PLATFORM(WINDOWS) || defined(USING_QT_UI) || PPSSPP_PLATFORM(ANDROID) || PPSSPP_PLATFORM(SWITCH)
-	auto n = GetI18NCategory(I18NCat::NETWORKING);
+	auto n = GetI18NCategory<I18NCat::NETWORKING>();
 	System_InputBoxGetString(GetRequesterToken(), n->T("Enter a new PSP nickname"), g_Config.sNickName, [](const std::string &value, int) {
 		g_Config.sNickName = StripSpaces(value);
 	});
@@ -1667,7 +1667,7 @@ UI::EventReturn GameSettingsScreen::OnChangeNickname(UI::EventParams &e) {
 }
 
 UI::EventReturn GameSettingsScreen::OnChangeproAdhocServerAddress(UI::EventParams &e) {
-	auto n = GetI18NCategory(I18NCat::NETWORKING);
+	auto n = GetI18NCategory<I18NCat::NETWORKING>();
 
 	screenManager()->push(new HostnameSelectScreen(&g_Config.proAdhocServer, n->T("proAdhocServer Address:")));
 
@@ -1675,7 +1675,7 @@ UI::EventReturn GameSettingsScreen::OnChangeproAdhocServerAddress(UI::EventParam
 }
 
 UI::EventReturn GameSettingsScreen::OnTextureShader(UI::EventParams &e) {
-	auto gr = GetI18NCategory(I18NCat::GRAPHICS);
+	auto gr = GetI18NCategory<I18NCat::GRAPHICS>();
 	auto shaderScreen = new TextureShaderScreen(gr->T("Texture Shader"));
 	shaderScreen->OnChoice.Handle(this, &GameSettingsScreen::OnTextureShaderChange);
 	if (e.v)
@@ -1718,12 +1718,12 @@ void DeveloperToolsScreen::CreateViews() {
 	settingsScroll->SetTag("DevToolsSettings");
 	root_->Add(settingsScroll);
 
-	auto di = GetI18NCategory(I18NCat::DIALOG);
-	auto dev = GetI18NCategory(I18NCat::DEVELOPER);
-	auto gr = GetI18NCategory(I18NCat::GRAPHICS);
-	auto a = GetI18NCategory(I18NCat::AUDIO);
-	auto sy = GetI18NCategory(I18NCat::SYSTEM);
-	auto ps = GetI18NCategory(I18NCat::POSTSHADERS);
+	auto di = GetI18NCategory<I18NCat::DIALOG>();
+	auto dev = GetI18NCategory<I18NCat::DEVELOPER>();
+	auto gr = GetI18NCategory<I18NCat::GRAPHICS>();
+	auto a = GetI18NCategory<I18NCat::AUDIO>();
+	auto sy = GetI18NCategory<I18NCat::SYSTEM>();
+	auto ps = GetI18NCategory<I18NCat::POSTSHADERS>();
 
 	AddStandardBack(root_);
 
@@ -1870,7 +1870,7 @@ void DeveloperToolsScreen::CreateViews() {
 		ChoiceWithValueDisplay *stereoShaderChoice = list->Add(new ChoiceWithValueDisplay(&g_Config.sStereoToMonoShader, gr->T("Stereo display shader"), &PostShaderTranslateName));
 		stereoShaderChoice->SetEnabledFunc(enableStereo);
 		stereoShaderChoice->OnClick.Add([=](EventParams &e) {
-			auto gr = GetI18NCategory(I18NCat::GRAPHICS);
+			auto gr = GetI18NCategory<I18NCat::GRAPHICS>();
 			auto procScreen = new PostProcScreen(gr->T("Stereo display shader"), 0, true);
 			if (e.v)
 				procScreen->SetPopupOrigin(e.v);
@@ -1920,10 +1920,10 @@ void GameSettingsScreen::CallbackRestoreDefaults(bool yes) {
 }
 
 UI::EventReturn GameSettingsScreen::OnRestoreDefaultSettings(UI::EventParams &e) {
-	auto sy = GetI18NCategory(I18NCat::SYSTEM);
+	auto sy = GetI18NCategory<I18NCat::SYSTEM>();
 	if (g_Config.bGameSpecific) {
-		auto dev = GetI18NCategory(I18NCat::DEVELOPER);
-		auto di = GetI18NCategory(I18NCat::DIALOG);
+		auto dev = GetI18NCategory<I18NCat::DEVELOPER>();
+		auto di = GetI18NCategory<I18NCat::DIALOG>();
 		screenManager()->push(
 			new PromptScreen(gamePath_, dev->T("RestoreGameDefaultSettings", "Are you sure you want to restore the game-specific settings back to the ppsspp defaults?\n"), di->T("OK"), di->T("Cancel"),
 			std::bind(&GameSettingsScreen::CallbackRestoreDefaults, this, std::placeholders::_1)));
@@ -1955,7 +1955,7 @@ UI::EventReturn DeveloperToolsScreen::OnOpenTexturesIniFile(UI::EventParams &e) 
 			File::OpenFileInEditor(generatedFilename);
 		} else {
 			// Can't do much here, let's send a "toast" so the user sees that something happened.
-			auto dev = GetI18NCategory(I18NCat::DEVELOPER);
+			auto dev = GetI18NCategory<I18NCat::DEVELOPER>();
 			System_Toast((generatedFilename.ToVisualString() + ": " + dev->T_cstr("Texture ini file created")).c_str());
 		}
 
@@ -2077,9 +2077,9 @@ UI::EventReturn DeveloperToolsScreen::OnMemstickTest(UI::EventParams &e) {
 
 void HostnameSelectScreen::CreatePopupContents(UI::ViewGroup *parent) {
 	using namespace UI;
-	auto sy = GetI18NCategory(I18NCat::SYSTEM);
-	auto di = GetI18NCategory(I18NCat::DIALOG);
-	auto n = GetI18NCategory(I18NCat::NETWORKING);
+	auto sy = GetI18NCategory<I18NCat::SYSTEM>();
+	auto di = GetI18NCategory<I18NCat::DIALOG>();
+	auto n = GetI18NCategory<I18NCat::NETWORKING>();
 
 	LinearLayout *valueRow = new LinearLayout(ORIENT_VERTICAL, new LinearLayoutParams(FILL_PARENT, FILL_PARENT, Margins(0, 0, 0, 10)));
 
@@ -2169,7 +2169,7 @@ UI::EventReturn HostnameSelectScreen::OnDeleteAllClick(UI::EventParams &e) {
 }
 
 UI::EventReturn HostnameSelectScreen::OnEditClick(UI::EventParams& e) {
-	auto n = GetI18NCategory(I18NCat::NETWORKING);
+	auto n = GetI18NCategory<I18NCat::NETWORKING>();
 	System_InputBoxGetString(GetRequesterToken(), n->T("proAdhocServer Address:"), addrView_->GetText(), [this](const std::string& value, int) {
 	    addrView_->SetText(value);
 	});
@@ -2217,7 +2217,7 @@ void HostnameSelectScreen::ResolverThread() {
 }
 
 bool HostnameSelectScreen::CanComplete(DialogResult result) {
-	auto n = GetI18NCategory(I18NCat::NETWORKING);
+	auto n = GetI18NCategory<I18NCat::NETWORKING>();
 
 	if (result != DR_OK)
 		return true;
@@ -2282,9 +2282,9 @@ void HostnameSelectScreen::OnCompleted(DialogResult result) {
 void GestureMappingScreen::CreateViews() {
 	using namespace UI;
 
-	auto di = GetI18NCategory(I18NCat::DIALOG);
-	auto co = GetI18NCategory(I18NCat::CONTROLS);
-	auto mc = GetI18NCategory(I18NCat::MAPPABLECONTROLS);
+	auto di = GetI18NCategory<I18NCat::DIALOG>();
+	auto co = GetI18NCategory<I18NCat::CONTROLS>();
+	auto mc = GetI18NCategory<I18NCat::MAPPABLECONTROLS>();
 
 	root_ = new AnchorLayout(new LayoutParams(FILL_PARENT, FILL_PARENT));
 	AddStandardBack(root_);
@@ -2325,10 +2325,10 @@ RestoreSettingsScreen::RestoreSettingsScreen(std::string_view title)
 void RestoreSettingsScreen::CreatePopupContents(UI::ViewGroup *parent) {
 	using namespace UI;
 	// Carefully re-use various translations.
-	auto ga = GetI18NCategory(I18NCat::GAME);
-	auto ms = GetI18NCategory(I18NCat::MAINSETTINGS);
-	auto mm = GetI18NCategory(I18NCat::MAINMENU);
-	auto dev = GetI18NCategory(I18NCat::DEVELOPER);
+	auto ga = GetI18NCategory<I18NCat::GAME>();
+	auto ms = GetI18NCategory<I18NCat::MAINSETTINGS>();
+	auto mm = GetI18NCategory<I18NCat::MAINMENU>();
+	auto dev = GetI18NCategory<I18NCat::DEVELOPER>();
 
 	std::string_view text = dev->T(
 		"RestoreDefaultSettings",

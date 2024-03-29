@@ -274,7 +274,7 @@ static void __GameModeNotify(u64 userdata, int cyclesLate) {
 					// Shows a warning if the sender/source port is different than what it supposed to be.
 					if (senderport != ADHOC_GAMEMODE_PORT && senderport != gameModePeerPorts[sendermac]) {
 						char name[9] = {};
-						auto n = GetI18NCategory(I18NCat::NETWORKING);
+						auto n = GetI18NCategory<I18NCat::NETWORKING>();
 						peerlock.lock();
 						SceNetAdhocctlPeerInfo* peer = findFriend(&sendermac);
 						if (peer != NULL)
@@ -1510,7 +1510,7 @@ static int sceNetAdhocPdpCreate(const char *mac, int port, int bufferSize, u32 f
 					// Port not available (exclusively in use?)
 					if (iResult == SOCKET_ERROR) {
 						ERROR_LOG(SCENET, "Socket error (%i) when binding port %u", errno, ntohs(addr.sin_port));
-						auto n = GetI18NCategory(I18NCat::NETWORKING);
+						auto n = GetI18NCategory<I18NCat::NETWORKING>();
 						g_OSD.Show(OSDType::MESSAGE_ERROR, std::string(n->T("Failed to Bind Port")) + " " + std::to_string(port + portOffset) + "\n" + std::string(n->T("Please change your Port Offset")));
 						
 						return hleLogDebug(SCENET, ERROR_NET_ADHOC_PORT_NOT_AVAIL, "port not available");
@@ -3525,7 +3525,7 @@ static int sceNetAdhocPtpOpen(const char *srcmac, int sport, const char *dstmac,
 					}
 					else {
 						ERROR_LOG(SCENET, "Socket error (%i) when binding port %u", errno, ntohs(addr.sin_port));
-						auto n = GetI18NCategory(I18NCat::NETWORKING);
+						auto n = GetI18NCategory<I18NCat::NETWORKING>();
 						g_OSD.Show(OSDType::MESSAGE_ERROR, std::string(n->T("Failed to Bind Port")) + " " + std::to_string(sport + portOffset) + "\n" + std::string(n->T("Please change your Port Offset")));
 					}
 
@@ -4119,7 +4119,7 @@ static int sceNetAdhocPtpListen(const char *srcmac, int sport, int bufsize, int 
 						}
 					}
 					else {
-						auto n = GetI18NCategory(I18NCat::NETWORKING);
+						auto n = GetI18NCategory<I18NCat::NETWORKING>();
 						g_OSD.Show(OSDType::MESSAGE_ERROR, std::string(n->T("Failed to Bind Port")) + " " + std::to_string(sport + portOffset) + "\n" + std::string(n->T("Please change your Port Offset")));
 					}
 
@@ -7631,7 +7631,7 @@ int matchingEventThread(int matchingId)
 int matchingInputThread(int matchingId) // TODO: The MatchingInput thread is using sceNetAdhocPdpRecv & sceNetAdhocPdpSend functions so it might be better to run this on PSP thread instead of real thread
 {
 	SetCurrentThreadName("MatchingInput");
-	auto n = GetI18NCategory(I18NCat::NETWORKING);
+	auto n = GetI18NCategory<I18NCat::NETWORKING>();
 	// Multithreading Lock
 	peerlock.lock();
 	// Cast Context

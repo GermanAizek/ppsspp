@@ -112,7 +112,7 @@ extern bool g_TakeScreenshot;
 
 static void __EmuScreenVblank()
 {
-	auto sy = GetI18NCategory(I18NCat::SYSTEM);
+	auto sy = GetI18NCategory<I18NCat::SYSTEM>();
 
 	if (frameStep_ && lastNumFlips != gpuStats.numFlips)
 	{
@@ -276,7 +276,7 @@ void EmuScreen::bootGame(const Path &filename) {
 		return;
 	}
 
-	auto sc = GetI18NCategory(I18NCat::SCREEN);
+	auto sc = GetI18NCategory<I18NCat::SCREEN>();
 	if (info->fileType == IdentifiedFileType::PSP_DISC_DIRECTORY) {
 		// Check for existence of ppsspp-index.lst - if it exists, the user likely knows what they're doing.
 		// TODO: Better would be to check that it was loaded successfully.
@@ -352,17 +352,17 @@ void EmuScreen::bootGame(const Path &filename) {
 	}
 
 	if (PSP_CoreParameter().compat.flags().RequireBufferedRendering && g_Config.bSkipBufferEffects) {
-		auto gr = GetI18NCategory(I18NCat::GRAPHICS);
+		auto gr = GetI18NCategory<I18NCat::GRAPHICS>();
 		g_OSD.Show(OSDType::MESSAGE_WARNING, gr->T("BufferedRenderingRequired", "Warning: This game requires Rendering Mode to be set to Buffered."), 10.0f);
 	}
 
 	if (PSP_CoreParameter().compat.flags().RequireBlockTransfer && g_Config.iSkipGPUReadbackMode != (int)SkipGPUReadbackMode::NO_SKIP) {
-		auto gr = GetI18NCategory(I18NCat::GRAPHICS);
+		auto gr = GetI18NCategory<I18NCat::GRAPHICS>();
 		g_OSD.Show(OSDType::MESSAGE_WARNING, gr->T("BlockTransferRequired", "Warning: This game requires Skip GPU Readbacks be set to No."), 10.0f);
 	}
 
 	if (PSP_CoreParameter().compat.flags().RequireDefaultCPUClock && g_Config.iLockedCPUSpeed != 0) {
-		auto gr = GetI18NCategory(I18NCat::GRAPHICS);
+		auto gr = GetI18NCategory<I18NCat::GRAPHICS>();
 		g_OSD.Show(OSDType::MESSAGE_WARNING, gr->T("DefaultCPUClockRequired", "Warning: This game requires the CPU clock to be set to default."), 10.0f);
 	}
 
@@ -387,7 +387,7 @@ void EmuScreen::bootComplete() {
 		autoLoad();
 	}
 
-	auto sc = GetI18NCategory(I18NCat::SCREEN);
+	auto sc = GetI18NCategory<I18NCat::SCREEN>();
 
 #ifndef MOBILE_DEVICE
 	if (g_Config.bFirstRun) {
@@ -411,7 +411,7 @@ void EmuScreen::bootComplete() {
 #endif
 
 	if (Core_GetPowerSaving()) {
-		auto sy = GetI18NCategory(I18NCat::SYSTEM);
+		auto sy = GetI18NCategory<I18NCat::SYSTEM>();
 #ifdef __ANDROID__
 		g_OSD.Show(OSDType::MESSAGE_WARNING, sy->T("WARNING: Android battery save mode is on"), 2.0f, "core_powerSaving");
 #else
@@ -420,8 +420,8 @@ void EmuScreen::bootComplete() {
 	}
 
 	if (g_Config.bStereoRendering) {
-		auto gr = GetI18NCategory(I18NCat::GRAPHICS);
-		auto di = GetI18NCategory(I18NCat::DIALOG);
+		auto gr = GetI18NCategory<I18NCat::GRAPHICS>();
+		auto di = GetI18NCategory<I18NCat::DIALOG>();
 		// Stereo rendering is experimental, so let's notify the user it's being used.
 		// Carefully reuse translations for this rare warning.
 		g_OSD.Show(OSDType::MESSAGE_WARNING, std::string(gr->T("Stereo rendering")) + ": " + std::string(di->T("Enabled")));
@@ -640,8 +640,8 @@ bool EmuScreen::UnsyncTouch(const TouchInput &touch) {
 }
 
 void EmuScreen::onVKey(int virtualKeyCode, bool down) {
-	auto sc = GetI18NCategory(I18NCat::SCREEN);
-	auto mc = GetI18NCategory(I18NCat::MAPPABLECONTROLS);
+	auto sc = GetI18NCategory<I18NCat::SCREEN>();
+	auto mc = GetI18NCategory<I18NCat::MAPPABLECONTROLS>();
 
 	switch (virtualKeyCode) {
 	case VIRTKEY_FASTFORWARD:
@@ -875,8 +875,8 @@ void EmuScreen::onVKey(int virtualKeyCode, bool down) {
 		break;
 	case VIRTKEY_TOGGLE_WLAN:
 		if (down) {
-			auto n = GetI18NCategory(I18NCat::NETWORKING);
-			auto di = GetI18NCategory(I18NCat::DIALOG);
+			auto n = GetI18NCategory<I18NCat::NETWORKING>();
+			auto di = GetI18NCategory<I18NCat::DIALOG>();
 			g_Config.bEnableWlan = !g_Config.bEnableWlan;
 			// Try to avoid adding more strings so we piece together a message from existing ones.
 			g_OSD.Show(OSDType::MESSAGE_INFO, StringFromFormat(
@@ -1013,8 +1013,8 @@ static UI::AnchorLayoutParams *AnchorInCorner(const Bounds &bounds, int corner, 
 void EmuScreen::CreateViews() {
 	using namespace UI;
 
-	auto dev = GetI18NCategory(I18NCat::DEVELOPER);
-	auto sc = GetI18NCategory(I18NCat::SCREEN);
+	auto dev = GetI18NCategory<I18NCat::DEVELOPER>();
+	auto sc = GetI18NCategory<I18NCat::SCREEN>();
 
 	const Bounds &bounds = screenManager()->getUIContext()->GetLayoutBounds();
 	InitPadLayout(bounds.w, bounds.h);
@@ -1046,7 +1046,7 @@ void EmuScreen::CreateViews() {
 
 	if (g_Config.bEnableNetworkChat) {
 		if (g_Config.iChatButtonPosition != 8) {
-			auto n = GetI18NCategory(I18NCat::NETWORKING);
+			auto n = GetI18NCategory<I18NCat::NETWORKING>();
 			AnchorLayoutParams *layoutParams = AnchorInCorner(bounds, g_Config.iChatButtonPosition, 80.0f, 50.0f);
 			ChoiceWithValueDisplay *btn = new ChoiceWithValueDisplay(&newChatMessages_, n->T("Chat"), layoutParams);
 			root_->Add(btn)->OnClick.Handle(this, &EmuScreen::OnChat);
@@ -1205,7 +1205,7 @@ void EmuScreen::update() {
 	}
 
 	if (errorMessage_.size()) {
-		auto err = GetI18NCategory(I18NCat::ERRORS);
+		auto err = GetI18NCategory<I18NCat::ERRORS>();
 		std::string errLoadingFile = gamePath_.ToVisualString() + "\n";
 		errLoadingFile.append(err->T("Error loading file", "Could not load game"));
 		errLoadingFile.append(" ");

@@ -94,8 +94,8 @@ void GameScreen::CreateViews() {
 		saveDirs = info->GetSaveDataDirectories(); // Get's very heavy, let's not do it in update()
 	}
 
-	auto di = GetI18NCategory(I18NCat::DIALOG);
-	auto ga = GetI18NCategory(I18NCat::GAME);
+	auto di = GetI18NCategory<I18NCat::DIALOG>();
+	auto ga = GetI18NCategory<I18NCat::GAME>();
 
 	// Information in the top left.
 	// Back button to the bottom left.
@@ -206,7 +206,7 @@ void GameScreen::CreateViews() {
 	rightColumnItems->Add(AddOtherChoice(new Choice(ga->T("Show In Folder"))))->OnClick.Handle(this, &GameScreen::OnShowInFolder);
 #endif
 	if (g_Config.bEnableCheats) {
-		auto pa = GetI18NCategory(I18NCat::PAUSE);
+		auto pa = GetI18NCategory<I18NCat::PAUSE>();
 		rightColumnItems->Add(AddOtherChoice(new Choice(pa->T("Cheats"))))->OnClick.Handle(this, &GameScreen::OnCwCheat);
 	}
 
@@ -272,8 +272,8 @@ void GameScreen::CallbackDeleteConfig(bool yes) {
 
 UI::EventReturn GameScreen::OnDeleteConfig(UI::EventParams &e)
 {
-	auto di = GetI18NCategory(I18NCat::DIALOG);
-	auto ga = GetI18NCategory(I18NCat::GAME);
+	auto di = GetI18NCategory<I18NCat::DIALOG>();
+	auto ga = GetI18NCategory<I18NCat::GAME>();
 	screenManager()->push(
 		new PromptScreen(gamePath_, di->T("DeleteConfirmGameConfig", "Do you really want to delete the settings for this game?"), ga->T("ConfirmDelete"), di->T("Cancel"),
 		std::bind(&GameScreen::CallbackDeleteConfig, this, std::placeholders::_1)));
@@ -284,7 +284,7 @@ UI::EventReturn GameScreen::OnDeleteConfig(UI::EventParams &e)
 ScreenRenderFlags GameScreen::render(ScreenRenderMode mode) {
 	ScreenRenderFlags flags = UIScreen::render(mode);
 
-	auto ga = GetI18NCategory(I18NCat::GAME);
+	auto ga = GetI18NCategory<I18NCat::GAME>();
 
 	Draw::DrawContext *draw = screenManager()->getDrawContext();
 
@@ -344,7 +344,7 @@ ScreenRenderFlags GameScreen::render(ScreenRenderMode mode) {
 	}
 
 	if (tvCRC_ && Reporting::HasCRC(gamePath_)) {
-		auto rp = GetI18NCategory(I18NCat::REPORTING);
+		auto rp = GetI18NCategory<I18NCat::REPORTING>();
 		uint32_t crcVal = Reporting::RetrieveCRC(gamePath_);
 		std::string crc = StringFromFormat("%08X", crcVal);
 		tvCRC_->SetText(ReplaceAll(rp->T("FeedbackCRCValue", "Disc CRC: %1"), "%1", crc));
@@ -477,8 +477,8 @@ UI::EventReturn GameScreen::OnDeleteSaveData(UI::EventParams &e) {
 	if (info) {
 		// Check that there's any savedata to delete
 		if (saveDirs.size()) {
-			auto di = GetI18NCategory(I18NCat::DIALOG);
-			auto ga = GetI18NCategory(I18NCat::GAME);
+			auto di = GetI18NCategory<I18NCat::DIALOG>();
+			auto ga = GetI18NCategory<I18NCat::GAME>();
 			screenManager()->push(
 				new PromptScreen(gamePath_, di->T("DeleteConfirmAll", "Do you really want to delete all\nyour save data for this game?"), ga->T("ConfirmDelete"), di->T("Cancel"),
 				std::bind(&GameScreen::CallbackDeleteSaveData, this, std::placeholders::_1)));
@@ -500,8 +500,8 @@ void GameScreen::CallbackDeleteSaveData(bool yes) {
 UI::EventReturn GameScreen::OnDeleteGame(UI::EventParams &e) {
 	std::shared_ptr<GameInfo> info = g_gameInfoCache->GetInfo(NULL, gamePath_, GameInfoFlags::PARAM_SFO);
 	if (info->Ready(GameInfoFlags::PARAM_SFO)) {
-		auto di = GetI18NCategory(I18NCat::DIALOG);
-		auto ga = GetI18NCategory(I18NCat::GAME);
+		auto di = GetI18NCategory<I18NCat::DIALOG>();
+		auto ga = GetI18NCategory<I18NCat::GAME>();
 		screenManager()->push(
 			new PromptScreen(gamePath_, di->T("DeleteConfirmGame", "Do you really want to delete this game\nfrom your device? You can't undo this."), ga->T("ConfirmDelete"), di->T("Cancel"),
 			std::bind(&GameScreen::CallbackDeleteGame, this, std::placeholders::_1)));
@@ -565,7 +565,7 @@ private:
 };
 
 void SetBackgroundPopupScreen::CreatePopupContents(UI::ViewGroup *parent) {
-	auto ga = GetI18NCategory(I18NCat::GAME);
+	auto ga = GetI18NCategory<I18NCat::GAME>();
 	parent->Add(new UI::TextView(ga->T("One moment please..."), ALIGN_LEFT | ALIGN_VCENTER, false, new UI::LinearLayoutParams(UI::Margins(10, 0, 10, 10))));
 }
 
@@ -600,7 +600,7 @@ void SetBackgroundPopupScreen::update() {
 }
 
 UI::EventReturn GameScreen::OnSetBackground(UI::EventParams &e) {
-	auto ga = GetI18NCategory(I18NCat::GAME);
+	auto ga = GetI18NCategory<I18NCat::GAME>();
 	// This popup is used to prevent any race condition:
 	// g_gameInfoCache may take time to load the data, and a crash could happen if they exit before then.
 	SetBackgroundPopupScreen *pop = new SetBackgroundPopupScreen(ga->T("Setting Background"), gamePath_);

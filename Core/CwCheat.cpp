@@ -380,7 +380,7 @@ void CWCheatEngine::CreateCheatFile() {
 			fclose(f);
 		}
 		if (!File::Exists(filename_)) {
-			auto err = GetI18NCategory(I18NCat::ERRORS);
+			auto err = GetI18NCategory<I18NCat::ERRORS>();
 			g_OSD.Show(OSDType::MESSAGE_ERROR, err->T("Unable to create cheat file, disk may be full"));
 		}
 	}

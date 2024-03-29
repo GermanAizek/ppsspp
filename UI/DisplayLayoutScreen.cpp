@@ -164,14 +164,14 @@ UI::EventReturn DisplayLayoutScreen::OnPostProcShaderChange(UI::EventParams &e) 
 
 static std::string PostShaderTranslateName(std::string_view value) {
 	if (value == "Off") {
-		auto gr = GetI18NCategory(I18NCat::GRAPHICS);
+		auto gr = GetI18NCategory<I18NCat::GRAPHICS>();
 		// Off is a legacy fake item (gonna migrate off it later).
 		return std::string(gr->T("Add postprocessing shader"));
 	}
 
 	const ShaderInfo *info = GetPostShaderInfo(value);
 	if (info) {
-		auto ps = GetI18NCategory(I18NCat::POSTSHADERS);
+		auto ps = GetI18NCategory<I18NCat::POSTSHADERS>();
 		return std::string(ps->T(value, info ? info->name : value));
 	} else {
 		return std::string(value);
@@ -191,10 +191,10 @@ void DisplayLayoutScreen::CreateViews() {
 
 	using namespace UI;
 
-	auto di = GetI18NCategory(I18NCat::DIALOG);
-	auto gr = GetI18NCategory(I18NCat::GRAPHICS);
-	auto co = GetI18NCategory(I18NCat::CONTROLS);
-	auto ps = GetI18NCategory(I18NCat::POSTSHADERS);
+	auto di = GetI18NCategory<I18NCat::DIALOG>();
+	auto gr = GetI18NCategory<I18NCat::GRAPHICS>();
+	auto co = GetI18NCategory<I18NCat::CONTROLS>();
+	auto ps = GetI18NCategory<I18NCat::POSTSHADERS>();
 
 	root_ = new AnchorLayout(new LayoutParams(FILL_PARENT, FILL_PARENT));
 
@@ -341,7 +341,7 @@ void DisplayLayoutScreen::CreateViews() {
 			postProcChoice_ = shaderRow->Add(new Choice(ImageID("I_PLUS")));
 		}
 		postProcChoice_->OnClick.Add([=](EventParams &e) {
-			auto gr = GetI18NCategory(I18NCat::GRAPHICS);
+			auto gr = GetI18NCategory<I18NCat::GRAPHICS>();
 			auto procScreen = new PostProcScreen(gr->T("Postprocessing shaders"), i, false);
 			procScreen->SetHasDropShadow(false);
 			procScreen->OnChoice.Handle(this, &DisplayLayoutScreen::OnPostProcShaderChange);
@@ -461,7 +461,7 @@ void DisplayLayoutScreen::CreateViews() {
 }
 
 void PostProcScreen::CreateViews() {
-	auto ps = GetI18NCategory(I18NCat::POSTSHADERS);
+	auto ps = GetI18NCategory<I18NCat::POSTSHADERS>();
 	ReloadAllPostShaderInfo(screenManager()->getDrawContext());
 	shaders_ = GetAllPostShaderInfo();
 	std::vector<std::string> items;

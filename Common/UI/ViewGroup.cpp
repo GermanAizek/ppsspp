@@ -715,7 +715,7 @@ void LinearLayout::Layout() {
 }
 
 std::string LinearLayoutList::DescribeText() const {
-	auto u = GetI18NCategory(I18NCat::UI_ELEMENTS);
+	auto u = GetI18NCategory<I18NCat::UI_ELEMENTS>();
 	return DescribeListOrdered(u->T("List:"));
 }
 
@@ -936,7 +936,7 @@ void GridLayout::Layout() {
 }
 
 std::string GridLayoutList::DescribeText() const {
-	auto u = GetI18NCategory(I18NCat::UI_ELEMENTS);
+	auto u = GetI18NCategory<I18NCat::UI_ELEMENTS>();
 	return DescribeListOrdered(u->T("List:"));
 }
 
@@ -968,7 +968,7 @@ TabHolder::TabHolder(Orientation orientation, float stripSize, LayoutParams *lay
 
 void TabHolder::AddBack(UIScreen *parent) {
 	if (tabContainer_) {
-		auto di = GetI18NCategory(I18NCat::DIALOG);
+		auto di = GetI18NCategory<I18NCat::DIALOG>();
 		tabContainer_->Add(new Choice(di->T("Back"), "", false, new LinearLayoutParams(FILL_PARENT, WRAP_CONTENT, 0.0f, Margins(0, 0, 10, 10))))->OnClick.Handle<UIScreen>(parent, &UIScreen::OnBack);
 	}
 }
@@ -1164,7 +1164,7 @@ bool ChoiceStrip::Key(const KeyInput &input) {
 }
 
 std::string ChoiceStrip::DescribeText() const {
-	auto u = GetI18NCategory(I18NCat::UI_ELEMENTS);
+	auto u = GetI18NCategory<I18NCat::UI_ELEMENTS>();
 	return DescribeListUnordered(u->T("Choices:"));
 }
 

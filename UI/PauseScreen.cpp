@@ -81,8 +81,8 @@ protected:
 
 	void CreatePopupContents(UI::ViewGroup *parent) override {
 		using namespace UI;
-		auto pa = GetI18NCategory(I18NCat::PAUSE);
-		auto di = GetI18NCategory(I18NCat::DIALOG);
+		auto pa = GetI18NCategory<I18NCat::PAUSE>();
+		auto di = GetI18NCategory<I18NCat::DIALOG>();
 
 		ScrollView *scroll = new ScrollView(ORIENT_VERTICAL, new LinearLayoutParams(FILL_PARENT, WRAP_CONTENT, 1.0f));
 		LinearLayout *content = new LinearLayout(ORIENT_VERTICAL);
@@ -184,7 +184,7 @@ SaveSlotView::SaveSlotView(const Path &gameFilename, int slot, bool vertical, UI
 	AsyncImageFileView *fv = Add(new AsyncImageFileView(screenshotFilename_, IS_DEFAULT, new UI::LayoutParams(82 * 2, 47 * 2)));
 	fv->SetOverlayText(StringFromFormat("%d", slot_ + 1));
 
-	auto pa = GetI18NCategory(I18NCat::PAUSE);
+	auto pa = GetI18NCategory<I18NCat::PAUSE>();
 
 	LinearLayout *lines = new LinearLayout(ORIENT_VERTICAL, new LinearLayoutParams(WRAP_CONTENT, WRAP_CONTENT));
 	lines->SetSpacing(2.0f);
@@ -295,7 +295,7 @@ bool GamePauseScreen::key(const KeyInput &key) {
 }
 
 void GamePauseScreen::CreateSavestateControls(UI::LinearLayout *leftColumnItems, bool vertical) {
-	auto pa = GetI18NCategory(I18NCat::PAUSE);
+	auto pa = GetI18NCategory<I18NCat::PAUSE>();
 
 	static const int NUM_SAVESLOTS = 5;
 
@@ -335,9 +335,9 @@ void GamePauseScreen::CreateViews() {
 
 	Margins scrollMargins(0, 10, 0, 0);
 	Margins actionMenuMargins(0, 10, 15, 0);
-	auto gr = GetI18NCategory(I18NCat::GRAPHICS);
-	auto pa = GetI18NCategory(I18NCat::PAUSE);
-	auto ac = GetI18NCategory(I18NCat::ACHIEVEMENTS);
+	auto gr = GetI18NCategory<I18NCat::GRAPHICS>();
+	auto pa = GetI18NCategory<I18NCat::PAUSE>();
+	auto ac = GetI18NCategory<I18NCat::ACHIEVEMENTS>();
 
 	root_ = new LinearLayout(ORIENT_HORIZONTAL);
 
@@ -433,12 +433,12 @@ void GamePauseScreen::CreateViews() {
 	// TODO, also might be nice to show overall compat rating here?
 	// Based on their platform or even cpu/gpu/config.  Would add an API for it.
 	if (Reporting::IsSupported() && g_paramSFO.GetValueString("DISC_ID").size()) {
-		auto rp = GetI18NCategory(I18NCat::REPORTING);
+		auto rp = GetI18NCategory<I18NCat::REPORTING>();
 		rightColumnItems->Add(new Choice(rp->T("ReportButton", "Report Feedback")))->OnClick.Handle(this, &GamePauseScreen::OnReportFeedback);
 	}
 	rightColumnItems->Add(new Spacer(25.0));
 	if (g_Config.bPauseMenuExitsEmulator) {
-		auto mm = GetI18NCategory(I18NCat::MAINMENU);
+		auto mm = GetI18NCategory<I18NCat::MAINMENU>();
 		rightColumnItems->Add(new Choice(mm->T("Exit")))->OnClick.Handle(this, &GamePauseScreen::OnExitToMenu);
 	} else {
 		rightColumnItems->Add(new Choice(pa->T("Exit to menu")))->OnClick.Handle(this, &GamePauseScreen::OnExitToMenu);
@@ -454,7 +454,7 @@ void GamePauseScreen::CreateViews() {
 			});
 		}
 	} else {
-		auto nw = GetI18NCategory(I18NCat::NETWORKING);
+		auto nw = GetI18NCategory<I18NCat::NETWORKING>();
 		rightColumnHolder->Add(new TextView(nw->T("Network connected")));
 	}
 	rightColumnHolder->Add(new Spacer(10.0f));
@@ -559,8 +559,8 @@ UI::EventReturn GamePauseScreen::OnCreateConfig(UI::EventParams &e)
 
 UI::EventReturn GamePauseScreen::OnDeleteConfig(UI::EventParams &e)
 {
-	auto di = GetI18NCategory(I18NCat::DIALOG);
-	auto ga = GetI18NCategory(I18NCat::GAME);
+	auto di = GetI18NCategory<I18NCat::DIALOG>();
+	auto ga = GetI18NCategory<I18NCat::GAME>();
 	screenManager()->push(
 		new PromptScreen(gamePath_, di->T("DeleteConfirmGameConfig", "Do you really want to delete the settings for this game?"), ga->T("ConfirmDelete"), di->T("Cancel"),
 		std::bind(&GamePauseScreen::CallbackDeleteConfig, this, std::placeholders::_1)));

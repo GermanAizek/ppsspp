@@ -148,7 +148,7 @@ void TextureCacheGLES::StartFrame() {
 		lowMemoryMode_ = true;
 		decimationCounter_ = 0;
 
-		auto err = GetI18NCategory(I18NCat::ERRORS);
+		auto err = GetI18NCategory<I18NCat::ERRORS>();
 		if (standardScaleFactor_ > 1) {
 			g_OSD.Show(OSDType::MESSAGE_WARNING, err->T("Warning: Video memory FULL, reducing upscaling and switching to slow caching mode"), 2.0f);
 		} else {

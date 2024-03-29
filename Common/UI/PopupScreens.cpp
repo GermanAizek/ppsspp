@@ -58,7 +58,7 @@ PopupContextMenuScreen::PopupContextMenuScreen(const ContextMenuItem *items, siz
 }
 
 void PopupContextMenuScreen::CreatePopupContents(UI::ViewGroup *parent) {
-	auto category = GetI18NCategory(category_);
+	auto category = GetI18NCategoryOld(category_);
 
 	for (size_t i = 0; i < itemCount_; i++) {
 		if (items_[i].imageID) {
@@ -95,7 +95,7 @@ std::string ChopTitle(const std::string &title) {
 UI::EventReturn PopupMultiChoice::HandleClick(UI::EventParams &e) {
 	restoreFocus_ = HasFocus();
 
-	auto category = GetI18NCategory(category_);
+	auto category = GetI18NCategoryOld(category_);
 
 	std::vector<std::string> choices;
 	for (int i = 0; i < numChoices_; i++) {
@@ -379,7 +379,7 @@ void SliderPopupScreen::CreatePopupContents(UI::ViewGroup *parent) {
 		lin->Add(new TextView(units_))->SetTextColor(dc.theme->itemStyle.fgColor);
 
 	if (defaultValue_ != NO_DEFAULT_FLOAT) {
-		auto di = GetI18NCategory(I18NCat::DIALOG);
+		auto di = GetI18NCategory<I18NCat::DIALOG>();
 		lin->Add(new Button(di->T("Reset")))->OnClick.Add([=](UI::EventParams &) {
 			sliderValue_ = defaultValue_;
 			changing_ = true;
@@ -423,7 +423,7 @@ void SliderFloatPopupScreen::CreatePopupContents(UI::ViewGroup *parent) {
 		lin->Add(new TextView(units_))->SetTextColor(dc.theme->itemStyle.fgColor);
 
 	if (defaultValue_ != NO_DEFAULT_FLOAT) {
-		auto di = GetI18NCategory(I18NCat::DIALOG);
+		auto di = GetI18NCategory<I18NCat::DIALOG>();
 		lin->Add(new Button(di->T("Reset")))->OnClick.Add([=](UI::EventParams &) {
 			sliderValue_ = defaultValue_;
 			if (liveUpdate_) {
@@ -670,7 +670,7 @@ float AbstractChoiceWithValueDisplay::CalculateValueScale(const UIContext &dc, c
 }
 
 std::string ChoiceWithValueDisplay::ValueText() const {
-	auto category = GetI18NCategory(category_);
+	auto category = GetI18NCategoryOld(category_);
 	std::ostringstream valueText;
 	if (translateCallback_ && sValue_) {
 		valueText << translateCallback_(sValue_->c_str());
@@ -702,7 +702,7 @@ FileChooserChoice::FileChooserChoice(RequesterToken token, std::string *value, s
 
 std::string FileChooserChoice::ValueText() const {
 	if (value_->empty()) {
-		auto di = GetI18NCategory(I18NCat::DIALOG);
+		auto di = GetI18NCategory<I18NCat::DIALOG>();
 		return std::string(di->T("Default"));
 	}
 	Path path(*value_);
@@ -726,7 +726,7 @@ FolderChooserChoice::FolderChooserChoice(RequesterToken token, std::string *valu
 
 std::string FolderChooserChoice::ValueText() const {
 	if (value_->empty()) {
-		auto di = GetI18NCategory(I18NCat::DIALOG);
+		auto di = GetI18NCategory<I18NCat::DIALOG>();
 		return std::string(di->T("Default"));
 	}
 	Path path(*value_);

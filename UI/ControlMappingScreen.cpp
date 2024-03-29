@@ -95,7 +95,7 @@ SingleControlMapper::SingleControlMapper(int pspKey, std::string keyName, Screen
 
 void SingleControlMapper::Refresh() {
 	Clear();
-	auto mc = GetI18NCategory(I18NCat::MAPPABLECONTROLS);
+	auto mc = GetI18NCategory<I18NCat::MAPPABLECONTROLS>();
 
 	std::map<std::string, ImageID> keyImages;
 	keyImages["Circle"] = ImageID("I_CIRCLE");
@@ -238,7 +238,7 @@ void ControlMappingScreen::CreateViews() {
 	using namespace UI;
 	mappers_.clear();
 
-	auto km = GetI18NCategory(I18NCat::KEYMAPPING);
+	auto km = GetI18NCategory<I18NCat::KEYMAPPING>();
 
 	root_ = new LinearLayout(ORIENT_HORIZONTAL);
 
@@ -330,7 +330,7 @@ UI::EventReturn ControlMappingScreen::OnAutoConfigure(UI::EventParams &params) {
 	for (auto s = seenPads.begin(), end = seenPads.end(); s != end; ++s) {
 		items.push_back(*s);
 	}
-	auto km = GetI18NCategory(I18NCat::KEYMAPPING);
+	auto km = GetI18NCategory<I18NCat::KEYMAPPING>();
 	UI::ListPopupScreen *autoConfList = new UI::ListPopupScreen(km->T("Autoconfigure for device"), items, -1);
 	if (params.v)
 		autoConfList->SetPopupOrigin(params.v);
@@ -348,8 +348,8 @@ void ControlMappingScreen::dialogFinished(const Screen *dialog, DialogResult res
 void KeyMappingNewKeyDialog::CreatePopupContents(UI::ViewGroup *parent) {
 	using namespace UI;
 
-	auto km = GetI18NCategory(I18NCat::KEYMAPPING);
-	auto mc = GetI18NCategory(I18NCat::MAPPABLECONTROLS);
+	auto km = GetI18NCategory<I18NCat::KEYMAPPING>();
+	auto mc = GetI18NCategory<I18NCat::MAPPABLECONTROLS>();
 
 	std::string pspButtonName = KeyMap::GetPspButtonName(this->pspBtn_);
 
@@ -412,7 +412,7 @@ void KeyMappingNewKeyDialog::SetDelay(float t) {
 void KeyMappingNewMouseKeyDialog::CreatePopupContents(UI::ViewGroup *parent) {
 	using namespace UI;
 
-	auto km = GetI18NCategory(I18NCat::KEYMAPPING);
+	auto km = GetI18NCategory<I18NCat::KEYMAPPING>();
 
 	parent->Add(new TextView(std::string(km->T("You can press ESC to cancel.")), new LinearLayoutParams(Margins(10, 0))));
 	SetVRAppMode(VRAppMode::VR_CONTROLLER_MAPPING_MODE);
@@ -560,14 +560,14 @@ void AnalogSetupScreen::axis(const AxisInput &axis) {
 void AnalogSetupScreen::CreateViews() {
 	using namespace UI;
 
-	auto di = GetI18NCategory(I18NCat::DIALOG);
+	auto di = GetI18NCategory<I18NCat::DIALOG>();
 
 	root_ = new LinearLayout(ORIENT_HORIZONTAL);
 
 	LinearLayout *leftColumn = root_->Add(new LinearLayout(ORIENT_VERTICAL, new LinearLayoutParams(300.0f, FILL_PARENT)));
 	LinearLayout *rightColumn = root_->Add(new LinearLayout(ORIENT_VERTICAL, new LinearLayoutParams(1.0f)));
 
-	auto co = GetI18NCategory(I18NCat::CONTROLS);
+	auto co = GetI18NCategory<I18NCat::CONTROLS>();
 	ScrollView *scroll = leftColumn->Add(new ScrollView(ORIENT_VERTICAL, new LinearLayoutParams(1.0)));
 
 	LinearLayout *scrollContents = scroll->Add(new LinearLayout(ORIENT_VERTICAL, new LinearLayoutParams(300.0f, WRAP_CONTENT)));
@@ -913,7 +913,7 @@ static std::vector<int> bindAllOrder{
 void VisualMappingScreen::CreateViews() {
 	using namespace UI;
 
-	auto km = GetI18NCategory(I18NCat::KEYMAPPING);
+	auto km = GetI18NCategory<I18NCat::KEYMAPPING>();
 
 	root_ = new LinearLayout(ORIENT_HORIZONTAL);
 

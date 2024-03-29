@@ -119,7 +119,7 @@ namespace Reporting
 	static std::thread crcThread;
 
 	static u32 CalculateCRC(BlockDevice *blockDevice, std::atomic<bool> *cancel) {
-		auto ga = GetI18NCategory(I18NCat::GAME);
+		auto ga = GetI18NCategory<I18NCat::GAME>();
 
 		u32 crc = crc32(0, Z_NULL, 0);
 

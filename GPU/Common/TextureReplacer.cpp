@@ -97,8 +97,8 @@ void TextureReplacer::NotifyConfigChanged() {
 
 	if (saveEnabled_) {
 		// Somewhat crude message, re-using translation strings.
-		auto d = GetI18NCategory(I18NCat::DEVELOPER);
-		auto di = GetI18NCategory(I18NCat::DIALOG);
+		auto d = GetI18NCategory<I18NCat::DEVELOPER>();
+		auto di = GetI18NCategory<I18NCat::DIALOG>();
 		g_OSD.Show(OSDType::MESSAGE_INFO, std::string(d->T("Save new textures")) + ": " + std::string(di->T("Enabled")), 2.0f);
 	}
 
@@ -193,7 +193,7 @@ bool TextureReplacer::LoadIni() {
 		}
 	}
 
-	auto gr = GetI18NCategory(I18NCat::GRAPHICS);
+	auto gr = GetI18NCategory<I18NCat::GRAPHICS>();
 	g_OSD.Show(OSDType::MESSAGE_SUCCESS, gr->T("Texture replacement pack activated"), 2.0f);
 
 	vfs_ = dir;
@@ -357,7 +357,7 @@ bool TextureReplacer::LoadIniValues(IniFile &ini, VFSBackend *dir, bool isOverri
 	ComputeAliasMap(filenameMap);
 
 	if (badFileNameCount > 0) {
-		auto err = GetI18NCategory(I18NCat::ERRORS);
+		auto err = GetI18NCategory<I18NCat::ERRORS>();
 		g_OSD.Show(OSDType::MESSAGE_WARNING, err->T("textures.ini filenames may not be cross - platform(banned characters)"), badFilenames, 6.0f);
 		WARN_LOG(G3D, "Potentially bad filenames: %s", badFilenames.c_str());
 	}

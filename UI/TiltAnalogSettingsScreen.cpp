@@ -34,8 +34,8 @@ const size_t g_numTiltTypes = ARRAY_SIZE(g_tiltTypes);
 void TiltAnalogSettingsScreen::CreateViews() {
 	using namespace UI;
 
-	auto co = GetI18NCategory(I18NCat::CONTROLS);
-	auto di = GetI18NCategory(I18NCat::DIALOG);
+	auto co = GetI18NCategory<I18NCat::CONTROLS>();
+	auto di = GetI18NCategory<I18NCat::DIALOG>();
 
 	bool vertical = UseVerticalLayout();
 

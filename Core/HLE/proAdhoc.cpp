@@ -1333,7 +1333,7 @@ void sendChat(const std::string &chatString) {
 		}
 	} else {
 		std::lock_guard<std::mutex> guard(chatLogLock);
-		auto n = GetI18NCategory(I18NCat::NETWORKING);
+		auto n = GetI18NCategory<I18NCat::NETWORKING>();
 		chatLog.push_back(std::string(n->T("You're in Offline Mode, go to lobby or online hall")));
 		chatMessageGeneration++;
 	}
@@ -1359,7 +1359,7 @@ int GetChatMessageCount() {
 // TODO: We should probably change this thread into PSPThread (or merging it into the existing AdhocThread PSPThread) as there are too many global vars being used here which also being used within some HLEs
 int friendFinder(){
 	SetCurrentThreadName("FriendFinder");
-	auto n = GetI18NCategory(I18NCat::NETWORKING);
+	auto n = GetI18NCategory<I18NCat::NETWORKING>();
 	// Receive Buffer
 	int rxpos = 0;
 	uint8_t rx[1024];
@@ -2161,7 +2161,7 @@ int getPTPSocketCount() {
 }
 
 int initNetwork(SceNetAdhocctlAdhocId *adhoc_id){
-	auto n = GetI18NCategory(I18NCat::NETWORKING);
+	auto n = GetI18NCategory<I18NCat::NETWORKING>();
 	int iResult = 0;
 	metasocket = (int)INVALID_SOCKET;
 	metasocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);

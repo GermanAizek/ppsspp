@@ -154,7 +154,7 @@ bool WarnUserIfHardcoreModeActive(bool isSaveStateAction, std::string_view messa
 
 	std::string_view showMessage = message;
 	if (message.empty()) {
-		auto ac = GetI18NCategory(I18NCat::ACHIEVEMENTS);
+		auto ac = GetI18NCategory<I18NCat::ACHIEVEMENTS>();
 		showMessage = ac->T("This feature is not available in Hardcore Mode");
 	}
 
@@ -202,7 +202,7 @@ static void server_call_callback(const rc_api_request_t *request,
 	rc_client_server_callback_t callback, void *callback_data, rc_client_t *client)
 {
 	// If post data is provided, we need to make a POST request, otherwise, a GET request will suffice.
-	auto ac = GetI18NCategory(I18NCat::ACHIEVEMENTS);
+	auto ac = GetI18NCategory<I18NCat::ACHIEVEMENTS>();
 	if (request->post_data) {
 		std::shared_ptr<http::Request> download = g_DownloadManager.AsyncPostWithCallback(std::string(request->url), std::string(request->post_data), "application/x-www-form-urlencoded", http::ProgressBarMode::DELAYED, [=](http::Request &download) {
 			std::string buffer;
@@ -232,7 +232,7 @@ static void log_message_callback(const char *message, const rc_client_t *client)
 
 // For detailed documentation, see https://github.com/RetroAchievements/rcheevos/wiki/rc_client_set_event_handler.
 static void event_handler_callback(const rc_client_event_t *event, rc_client_t *client) {
-	auto ac = GetI18NCategory(I18NCat::ACHIEVEMENTS);
+	auto ac = GetI18NCategory<I18NCat::ACHIEVEMENTS>();
 
 	switch (event->type) {
 	case RC_CLIENT_EVENT_ACHIEVEMENT_TRIGGERED:
@@ -247,7 +247,7 @@ static void event_handler_callback(const rc_client_event_t *event, rc_client_t *
 		// TODO: Do some zany fireworks!
 
 		// All achievements for the game have been earned. The handler should notify the player that the game was completed or mastered, depending on mode, hardcore or not.
-		auto ac = GetI18NCategory(I18NCat::ACHIEVEMENTS);
+		auto ac = GetI18NCategory<I18NCat::ACHIEVEMENTS>();
 
 		const rc_client_game_t *gameInfo = rc_client_get_game_info(g_rcClient);
 
@@ -372,7 +372,7 @@ static void login_token_callback(int result, const char *error_message, rc_clien
 		INFO_LOG(ACHIEVEMENTS, "Successful login by token.");
 		OnAchievementsLoginStateChange();
 		if (!isInitialAttempt) {
-			auto ac = GetI18NCategory(I18NCat::ACHIEVEMENTS);
+			auto ac = GetI18NCategory<I18NCat::ACHIEVEMENTS>();
 			g_OSD.Show(OSDType::MESSAGE_SUCCESS, ac->T("Reconnected to RetroAchievements."), "", g_RAImageID);
 		}
 		break;
@@ -380,7 +380,7 @@ static void login_token_callback(int result, const char *error_message, rc_clien
 	case RC_NO_RESPONSE:
 	{
 		if (isInitialAttempt) {
-			auto di = GetI18NCategory(I18NCat::DIALOG);
+			auto di = GetI18NCategory<I18NCat::DIALOG>();
 			g_OSD.Show(OSDType::MESSAGE_WARNING, di->T("Failed to connect to server, check your internet connection."), "", g_RAImageID);
 		}
 		break;
@@ -396,7 +396,7 @@ static void login_token_callback(int result, const char *error_message, rc_clien
 	{
 		ERROR_LOG(ACHIEVEMENTS, "Callback: Failure logging in via token: %d, %s", result, error_message);
 		if (isInitialAttempt) {
-			auto ac = GetI18NCategory(I18NCat::ACHIEVEMENTS);
+			auto ac = GetI18NCategory<I18NCat::ACHIEVEMENTS>();
 			g_OSD.Show(OSDType::MESSAGE_WARNING, ac->T("Failed logging in to RetroAchievements"), "", g_RAImageID);
 		}
 		OnAchievementsLoginStateChange();
@@ -510,7 +510,7 @@ static void TryLoginByToken(bool isInitialAttempt) {
 }
 
 static void login_password_callback(int result, const char *error_message, rc_client_t *client, void *userdata) {
-	auto di = GetI18NCategory(I18NCat::DIALOG);
+	auto di = GetI18NCategory<I18NCat::DIALOG>();
 	switch (result) {
 	case RC_OK:
 	{
@@ -524,7 +524,7 @@ static void login_password_callback(int result, const char *error_message, rc_cl
 	}
 	case RC_NO_RESPONSE:
 	{
-		auto di = GetI18NCategory(I18NCat::DIALOG);
+		auto di = GetI18NCategory<I18NCat::DIALOG>();
 		g_OSD.Show(OSDType::MESSAGE_WARNING, di->T("Failed to connect to server, check your internet connection."), "", g_RAImageID);
 		break;
 	}
@@ -550,7 +550,7 @@ static void login_password_callback(int result, const char *error_message, rc_cl
 }
 
 bool LoginAsync(const char *username, const char *password) {
-	auto di = GetI18NCategory(I18NCat::DIALOG);
+	auto di = GetI18NCategory<I18NCat::DIALOG>();
 	if (IsLoggedIn() || std::strlen(username) == 0 || std::strlen(password) == 0 || IsUsingRAIntegration())
 		return false;
 
@@ -636,7 +636,7 @@ void DoState(PointerWrap &p) {
 		// Save state is missing the section.
 		// Reset the runtime.
 		if (HasAchievementsOrLeaderboards()) {
-			auto ac = GetI18NCategory(I18NCat::ACHIEVEMENTS);
+			auto ac = GetI18NCategory<I18NCat::ACHIEVEMENTS>();
 			g_OSD.Show(OSDType::MESSAGE_WARNING, ac->T("Save state loaded without achievement data"), "", g_RAImageID, 5.0f, "");
 		}
 		rc_client_reset(g_rcClient);
@@ -695,7 +695,7 @@ void DoState(PointerWrap &p) {
 		delete[] buffer;
 	} else {
 		if (IsActive()) {
-			auto ac = GetI18NCategory(I18NCat::ACHIEVEMENTS);
+			auto ac = GetI18NCategory<I18NCat::ACHIEVEMENTS>();
 			g_OSD.Show(OSDType::MESSAGE_WARNING, ac->T("Save state loaded without achievement data"), "", g_RAImageID, 5.0f);
 		}
 		rc_client_reset(g_rcClient);
@@ -727,7 +727,7 @@ Statistics GetStatistics() {
 }
 
 std::string GetGameAchievementSummary() {
-	auto ac = GetI18NCategory(I18NCat::ACHIEVEMENTS);
+	auto ac = GetI18NCategory<I18NCat::ACHIEVEMENTS>();
 
 	rc_client_user_game_summary_t summary;
 	rc_client_get_user_game_summary(g_rcClient, &summary);
@@ -757,12 +757,12 @@ std::string GetGameAchievementSummary() {
 
 // Can happen two ways.
 void ShowNotLoggedInMessage() {
-	auto ac = GetI18NCategory(I18NCat::ACHIEVEMENTS);
+	auto ac = GetI18NCategory<I18NCat::ACHIEVEMENTS>();
 	g_OSD.Show(OSDType::MESSAGE_ERROR, ac->T("Failed to connect to RetroAchievements. Achievements will not unlock."), "", g_RAImageID, 6.0f);
 }
 
 void identify_and_load_callback(int result, const char *error_message, rc_client_t *client, void *userdata) {
-	auto ac = GetI18NCategory(I18NCat::ACHIEVEMENTS);
+	auto ac = GetI18NCategory<I18NCat::ACHIEVEMENTS>();
 
 	NOTICE_LOG(ACHIEVEMENTS, "Load callback: %d (%s)", result, error_message);
 
@@ -861,7 +861,7 @@ void UnloadGame() {
 }
 
 void change_media_callback(int result, const char *error_message, rc_client_t *client, void *userdata) {
-	auto ac = GetI18NCategory(I18NCat::ACHIEVEMENTS);
+	auto ac = GetI18NCategory<I18NCat::ACHIEVEMENTS>();
 	NOTICE_LOG(ACHIEVEMENTS, "Change media callback: %d (%s)", result, error_message);
 	g_isIdentifying = false;
 

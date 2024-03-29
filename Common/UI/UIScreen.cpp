@@ -297,7 +297,7 @@ UI::EventReturn UIScreen::OnCancel(UI::EventParams &e) {
 
 PopupScreen::PopupScreen(std::string_view title, std::string_view button1, std::string_view button2)
 	: title_(title) {
-	auto di = GetI18NCategory(I18NCat::DIALOG);
+	auto di = GetI18NCategory<I18NCat::DIALOG>();
 	if (!button1.empty())
 		button1_ = di->T(button1);
 	if (!button2.empty())

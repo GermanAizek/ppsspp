@@ -230,7 +230,7 @@
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <FixedBaseAddress>true</FixedBaseAddress>
       <AdditionalOptions>/ignore:4049 /ignore:4217 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalLibraryDirectories>../ffmpeg/Windows/x86_64/lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\GIT\ppsspp\Common\x64\Debug;../ffmpeg/Windows/x86_64/lib</AdditionalLibraryDirectories>
     </Link>
     <PreBuildEvent>
       <Command>../Windows/git-version-gen.cmd Headless</Command>

@@ -102,7 +102,7 @@ static const char *g_debugOverlayList[] = {
 
 void AddOverlayList(UI::ViewGroup *items, ScreenManager *screenManager) {
 	using namespace UI;
-	auto dev = GetI18NCategory(I18NCat::DEVELOPER);
+	auto dev = GetI18NCategory<I18NCat::DEVELOPER>();
 	int numOverlays = ARRAY_SIZE(g_debugOverlayList);
 	if (!(g_Config.iGPUBackend == (int)GPUBackend::VULKAN || g_Config.iGPUBackend == (int)GPUBackend::OPENGL)) {
 		numOverlays -= 2;  // skip the last 2.
@@ -112,8 +112,8 @@ void AddOverlayList(UI::ViewGroup *items, ScreenManager *screenManager) {
 
 void DevMenuScreen::CreatePopupContents(UI::ViewGroup *parent) {
 	using namespace UI;
-	auto dev = GetI18NCategory(I18NCat::DEVELOPER);
-	auto sy = GetI18NCategory(I18NCat::SYSTEM);
+	auto dev = GetI18NCategory<I18NCat::DEVELOPER>();
+	auto sy = GetI18NCategory<I18NCat::SYSTEM>();
 
 	ScrollView *scroll = new ScrollView(ORIENT_VERTICAL, new LinearLayoutParams(FILL_PARENT, WRAP_CONTENT, 1.0f));
 	LinearLayout *items = new LinearLayout(ORIENT_VERTICAL);
@@ -245,7 +245,7 @@ void LogScreen::update() {
 
 void LogScreen::CreateViews() {
 	using namespace UI;
-	auto di = GetI18NCategory(I18NCat::DIALOG);
+	auto di = GetI18NCategory<I18NCat::DIALOG>();
 
 	LinearLayout *outer = new LinearLayout(ORIENT_VERTICAL, new LinearLayoutParams(FILL_PARENT, WRAP_CONTENT));
 	root_ = outer;
@@ -279,8 +279,8 @@ UI::EventReturn LogScreen::OnSubmit(UI::EventParams &e) {
 void LogConfigScreen::CreateViews() {
 	using namespace UI;
 
-	auto di = GetI18NCategory(I18NCat::DIALOG);
-	auto dev = GetI18NCategory(I18NCat::DEVELOPER);
+	auto di = GetI18NCategory<I18NCat::DIALOG>();
+	auto dev = GetI18NCategory<I18NCat::DEVELOPER>();
 
 	root_ = new ScrollView(ORIENT_VERTICAL);
 
@@ -350,7 +350,7 @@ UI::EventReturn LogConfigScreen::OnLogLevelChange(UI::EventParams &e) {
 }
 
 UI::EventReturn LogConfigScreen::OnLogLevel(UI::EventParams &e) {
-	auto dev = GetI18NCategory(I18NCat::DEVELOPER);
+	auto dev = GetI18NCategory<I18NCat::DEVELOPER>();
 
 	auto logLevelScreen = new LogLevelScreen(dev->T("Log Level"));
 	logLevelScreen->OnChoice.Handle(this, &LogConfigScreen::OnLogLevelChange);
@@ -420,8 +420,8 @@ static const JitDisableFlag jitDisableFlags[] = {
 void JitDebugScreen::CreateViews() {
 	using namespace UI;
 
-	auto di = GetI18NCategory(I18NCat::DIALOG);
-	auto dev = GetI18NCategory(I18NCat::DEVELOPER);
+	auto di = GetI18NCategory<I18NCat::DIALOG>();
+	auto dev = GetI18NCategory<I18NCat::DEVELOPER>();
 
 	root_ = new ScrollView(ORIENT_VERTICAL);
 
@@ -489,10 +489,10 @@ void SystemInfoScreen::CreateTabs() {
 	using namespace Draw;
 	using namespace UI;
 
-	auto di = GetI18NCategory(I18NCat::DIALOG);
-	auto si = GetI18NCategory(I18NCat::SYSINFO);
-	auto sy = GetI18NCategory(I18NCat::SYSTEM);
-	auto gr = GetI18NCategory(I18NCat::GRAPHICS);
+	auto di = GetI18NCategory<I18NCat::DIALOG>();
+	auto si = GetI18NCategory<I18NCat::SYSINFO>();
+	auto sy = GetI18NCategory<I18NCat::SYSTEM>();
+	auto gr = GetI18NCategory<I18NCat::GRAPHICS>();
 
 	TabHolder *tabHolder = new TabHolder(ORIENT_VERTICAL, 225, new AnchorLayoutParams(10, 0, 10, 0, false));
 	tabHolder->SetTag("DevSystemInfo");
@@ -850,10 +850,10 @@ void SystemInfoScreen::CreateTabs() {
 void SystemInfoScreen::CreateInternalsTab(UI::ViewGroup *internals) {
 	using namespace UI;
 
-	auto di = GetI18NCategory(I18NCat::DIALOG);
-	auto si = GetI18NCategory(I18NCat::SYSINFO);
-	auto sy = GetI18NCategory(I18NCat::SYSTEM);
-	auto ac = GetI18NCategory(I18NCat::ACHIEVEMENTS);
+	auto di = GetI18NCategory<I18NCat::DIALOG>();
+	auto si = GetI18NCategory<I18NCat::SYSINFO>();
+	auto sy = GetI18NCategory<I18NCat::SYSTEM>();
+	auto ac = GetI18NCategory<I18NCat::ACHIEVEMENTS>();
 
 	internals->Add(new ItemHeader(si->T("Icon cache")));
 	IconCacheStats iconStats = g_iconCache.GetStats();
@@ -939,7 +939,7 @@ void SystemInfoScreen::CreateInternalsTab(UI::ViewGroup *internals) {
 void AddressPromptScreen::CreatePopupContents(UI::ViewGroup *parent) {
 	using namespace UI;
 
-	auto dev = GetI18NCategory(I18NCat::DEVELOPER);
+	auto dev = GetI18NCategory<I18NCat::DEVELOPER>();
 
 	addrView_ = new TextView(dev->T("Enter address"), ALIGN_HCENTER, false);
 	parent->Add(addrView_);
@@ -998,7 +998,7 @@ void AddressPromptScreen::UpdatePreviewDigits() {
 		snprintf(temp, 32, "%8X", addr_);
 		addrView_->SetText(temp);
 	} else {
-		auto dev = GetI18NCategory(I18NCat::DEVELOPER);
+		auto dev = GetI18NCategory<I18NCat::DEVELOPER>();
 		addrView_->SetText(dev->T("Enter address"));
 	}
 }
@@ -1025,8 +1025,8 @@ bool AddressPromptScreen::key(const KeyInput &key) {
 
 // Three panes: Block chooser, MIPS view, ARM/x86 view
 void JitCompareScreen::CreateViews() {
-	auto di = GetI18NCategory(I18NCat::DIALOG);
-	auto dev = GetI18NCategory(I18NCat::DEVELOPER);
+	auto di = GetI18NCategory<I18NCat::DIALOG>();
+	auto dev = GetI18NCategory<I18NCat::DEVELOPER>();
 
 	using namespace UI;
 	
@@ -1082,7 +1082,7 @@ void JitCompareScreen::UpdateDisasm() {
 	blockName_->SetText(temp);
 
 	if (currentBlock_ < 0 || !blockCacheDebug || currentBlock_ >= blockCacheDebug->GetNumBlocks()) {
-		auto dev = GetI18NCategory(I18NCat::DEVELOPER);
+		auto dev = GetI18NCategory<I18NCat::DEVELOPER>();
 		leftDisasm_->Add(new TextView(dev->T("No block")));
 		rightDisasm_->Add(new TextView(dev->T("No block")));
 		blockStats_->SetText("");
@@ -1170,7 +1170,7 @@ UI::EventReturn JitCompareScreen::OnShowStats(UI::EventParams &e) {
 
 
 UI::EventReturn JitCompareScreen::OnSelectBlock(UI::EventParams &e) {
-	auto dev = GetI18NCategory(I18NCat::DEVELOPER);
+	auto dev = GetI18NCategory<I18NCat::DEVELOPER>();
 
 	auto addressPrompt = new AddressPromptScreen(dev->T("Block address"));
 	addressPrompt->OnChoice.Handle(this, &JitCompareScreen::OnBlockAddress);
@@ -1313,7 +1313,7 @@ struct { DebugShaderType type; const char *name; } shaderTypes[] = {
 void ShaderListScreen::CreateViews() {
 	using namespace UI;
 
-	auto di = GetI18NCategory(I18NCat::DIALOG);
+	auto di = GetI18NCategory<I18NCat::DIALOG>();
 
 	LinearLayout *layout = new LinearLayout(ORIENT_VERTICAL);
 	root_ = layout;
@@ -1342,7 +1342,7 @@ UI::EventReturn ShaderListScreen::OnShaderClick(UI::EventParams &e) {
 void ShaderViewScreen::CreateViews() {
 	using namespace UI;
 
-	auto di = GetI18NCategory(I18NCat::DIALOG);
+	auto di = GetI18NCategory<I18NCat::DIALOG>();
 
 	LinearLayout *layout = new LinearLayout(ORIENT_VERTICAL);
 	root_ = layout;
@@ -1381,7 +1381,7 @@ void FrameDumpTestScreen::CreateViews() {
 	using namespace UI;
 
 	root_ = new AnchorLayout(new LayoutParams(FILL_PARENT, FILL_PARENT));
-	auto di = GetI18NCategory(I18NCat::DIALOG);
+	auto di = GetI18NCategory<I18NCat::DIALOG>();
 
 	TabHolder *tabHolder;
 	tabHolder = new TabHolder(ORIENT_VERTICAL, 200, new AnchorLayoutParams(10, 0, 10, 0, false));
@@ -1510,8 +1510,8 @@ void TouchTestScreen::touch(const TouchInput &touch) {
 void TouchTestScreen::CreateViews() {
 	using namespace UI;
 
-	auto di = GetI18NCategory(I18NCat::DIALOG);
-	auto gr = GetI18NCategory(I18NCat::GRAPHICS);
+	auto di = GetI18NCategory<I18NCat::DIALOG>();
+	auto gr = GetI18NCategory<I18NCat::GRAPHICS>();
 	root_ = new LinearLayout(ORIENT_VERTICAL);
 	LinearLayout *theTwo = new LinearLayout(ORIENT_VERTICAL, new LinearLayoutParams(1.0f));
 
@@ -1643,7 +1643,7 @@ void RecreateActivity() {
 		System_Notify(SystemNotification::FORCE_RECREATE_ACTIVITY);
 		INFO_LOG(SYSTEM, "Got back from recreate");
 	} else {
-		auto gr = GetI18NCategory(I18NCat::GRAPHICS);
+		auto gr = GetI18NCategory<I18NCat::GRAPHICS>();
 		System_Toast(gr->T_cstr("Must Restart", "You must restart PPSSPP for this change to take effect"));
 	}
 }

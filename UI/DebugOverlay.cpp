@@ -267,7 +267,7 @@ static const char *CPUCoreAsString(int core) {
 void DrawCrashDump(UIContext *ctx, const Path &gamePath) {
 	const MIPSExceptionInfo &info = Core_GetExceptionInfo();
 
-	auto sy = GetI18NCategory(I18NCat::SYSTEM);
+	auto sy = GetI18NCategory<I18NCat::SYSTEM>();
 	FontID ubuntu24("UBUNTU24");
 	std::string discID = g_paramSFO.GetDiscID();
 	int x = 20 + System_GetPropertyFloat(SYSPROP_DISPLAY_SAFE_INSET_LEFT);

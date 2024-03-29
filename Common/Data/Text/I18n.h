@@ -118,6 +118,9 @@ public:
 
 	std::string LanguageID();
 
+	template <I18NCat category> // C++17 meta constexpr
+	std::shared_ptr<I18NCategory> GetCategory();
+
 	std::shared_ptr<I18NCategory> GetCategory(I18NCat category);
 
 	// Translate the string, by looking up "key" in the file, and falling back to either def or key, in that order, if the lookup fails.
@@ -146,8 +149,10 @@ private:
 extern I18NRepo g_i18nrepo;
 
 // These are simply talking to the one global instance of I18NRepo.
+template <I18NCat cat> // C++17 meta constexpr
+std::shared_ptr<I18NCategory> GetI18NCategory();
 
-std::shared_ptr<I18NCategory> GetI18NCategory(I18NCat cat);
+std::shared_ptr<I18NCategory> GetI18NCategoryOld(I18NCat cat);
 
 inline std::string_view T(I18NCat category, std::string_view key, std::string_view def = "") {
 	return g_i18nrepo.T(category, key, def);

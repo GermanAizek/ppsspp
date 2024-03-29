@@ -86,7 +86,7 @@ void PSPNpSigninDialog::DrawBanner() {
 
 	// TODO: Draw a hexagon icon
 	PPGeDrawImage(10, 5, 11.0f, 10.0f, 1, 10, 1, 10, 10, 10, FadedImageStyle());
-	auto di = GetI18NCategory(I18NCat::DIALOG);
+	auto di = GetI18NCategory<I18NCat::DIALOG>();
 	PPGeDrawText(di->T("Sign In"), 31, 10, textStyle);
 }
 
@@ -101,7 +101,7 @@ void PSPNpSigninDialog::DrawLogo() {
 }
 
 void PSPNpSigninDialog::DisplayMessage(std::string_view text1, std::string_view text2a, std::string_view text2b, std::string_view text3a, std::string_view text3b, bool hasYesNo, bool hasOK) {
-	auto di = GetI18NCategory(I18NCat::DIALOG);
+	auto di = GetI18NCategory<I18NCat::DIALOG>();
 
 	PPGeStyle buttonStyle = FadedStyle(PPGeAlign::BOX_CENTER, FONT_SCALE);
 	PPGeStyle messageStyle = FadedStyle(PPGeAlign::BOX_HCENTER, FONT_SCALE);
@@ -235,11 +235,11 @@ int PSPNpSigninDialog::Update(int animSpeed) {
 
 	UpdateButtons();
 	UpdateCommon();
-	auto err = GetI18NCategory(I18NCat::ERRORS);
+	auto err = GetI18NCategory<I18NCat::ERRORS>();
 	u64 now = (u64)(time_now_d() * 1000000.0);
 	
 	if (request.npSigninStatus == NP_SIGNIN_STATUS_NONE) {
-		auto di = GetI18NCategory(I18NCat::DIALOG);
+		auto di = GetI18NCategory<I18NCat::DIALOG>();
 		UpdateFade(animSpeed);
 		StartDraw();
 

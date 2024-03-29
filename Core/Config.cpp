@@ -1927,7 +1927,7 @@ void PlayTimeTracker::Save(Section *section) {
 }
 
 bool PlayTimeTracker::GetPlayedTimeString(const std::string &gameId, std::string *str) const {
-	auto ga = GetI18NCategory(I18NCat::GAME);
+	auto ga = GetI18NCategory<I18NCat::GAME>();
 
 	auto iter = tracker_.find(gameId);
 	if (iter == tracker_.end()) {

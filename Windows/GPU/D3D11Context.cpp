@@ -107,7 +107,7 @@ bool D3D11Context::Init(HINSTANCE hInst, HWND wnd, std::string *error_message) {
 
 	if (FAILED(hr)) {
 		const char *defaultError = "Your GPU does not appear to support Direct3D 11.\n\nWould you like to try again using Direct3D 9 instead?";
-		auto err = GetI18NCategory(I18NCat::ERRORS);
+		auto err = GetI18NCategory<I18NCat::ERRORS>();
 
 		std::wstring error;
 

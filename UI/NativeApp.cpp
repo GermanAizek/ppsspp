@@ -694,7 +694,7 @@ void NativeInit(int argc, const char *argv[], const char *savegame_dir, const ch
 		}
 	}
 
-	auto des = GetI18NCategory(I18NCat::DESKTOPUI);
+	auto des = GetI18NCategory<I18NCat::DESKTOPUI>();
 	// Note to translators: do not translate this/add this to PPSSPP-lang's files.
 	// It's intended to be custom for every user.
 	// Only add it to your own personal copies of PPSSPP.
@@ -995,7 +995,7 @@ static void TakeScreenshot() {
 	if (success) {
 		g_OSD.Show(OSDType::MESSAGE_FILE_LINK, filename.ToString());
 	} else {
-		auto err = GetI18NCategory(I18NCat::ERRORS);
+		auto err = GetI18NCategory<I18NCat::ERRORS>();
 		g_OSD.Show(OSDType::MESSAGE_ERROR, err->T("Could not save screenshot file"));
 	}
 }
@@ -1199,7 +1199,7 @@ bool HandleGlobalMessage(UIMessage message, const std::string &value) {
 		g_restartGraphics = 1;
 		return true;
 	} else if (message == UIMessage::SAVESTATE_DISPLAY_SLOT) {
-		auto sy = GetI18NCategory(I18NCat::SYSTEM);
+		auto sy = GetI18NCategory<I18NCat::SYSTEM>();
 		std::string msg = StringFromFormat("%s: %d", std::string(sy->T("Savestate Slot")).c_str(), SaveState::GetCurrentSlot() + 1);
 		// Show for the same duration as the preview.
 		g_OSD.Show(OSDType::MESSAGE_INFO, msg, 2.0f, "savestate_slot");
@@ -1226,7 +1226,7 @@ bool HandleGlobalMessage(UIMessage message, const std::string &value) {
 	}
 	else if (message == UIMessage::POWER_SAVING) {
 		if (value != "false") {
-			auto sy = GetI18NCategory(I18NCat::SYSTEM);
+			auto sy = GetI18NCategory<I18NCat::SYSTEM>();
 #if PPSSPP_PLATFORM(ANDROID)
 			g_OSD.Show(OSDType::MESSAGE_WARNING, sy->T("WARNING: Android battery save mode is on"), 2.0f, "core_powerSaving");
 #else

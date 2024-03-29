@@ -94,7 +94,7 @@ void PSPNetconfDialog::DrawBanner() {
 
 	// TODO: Draw a hexagon icon
 	PPGeDrawImage(10, 5, 11.0f, 10.0f, 1, 10, 1, 10, 10, 10, FadedImageStyle());
-	auto di = GetI18NCategory(I18NCat::DIALOG);
+	auto di = GetI18NCategory<I18NCat::DIALOG>();
 	PPGeDrawText(di->T("Network Connection"), 31, 10, textStyle);
 }
 
@@ -104,7 +104,7 @@ void PSPNetconfDialog::DrawIndicator() {
 }
 
 void PSPNetconfDialog::DisplayMessage(std::string_view text1, std::string_view text2a, std::string_view text2b, std::string_view text3a, std::string_view text3b, bool hasYesNo, bool hasOK) {
-	auto di = GetI18NCategory(I18NCat::DIALOG);
+	auto di = GetI18NCategory<I18NCat::DIALOG>();
 
 	PPGeStyle buttonStyle = FadedStyle(PPGeAlign::BOX_CENTER, FONT_SCALE);
 	PPGeStyle messageStyle = FadedStyle(PPGeAlign::BOX_HCENTER, FONT_SCALE);
@@ -238,7 +238,7 @@ int PSPNetconfDialog::Update(int animSpeed) {
 
 	UpdateButtons();
 	UpdateCommon();
-	auto di = GetI18NCategory(I18NCat::DIALOG);
+	auto di = GetI18NCategory<I18NCat::DIALOG>();
 	u64 now = (u64)(time_now_d() * 1000000.0);
 	
 	// It seems JPCSP doesn't check for NETCONF_STATUS_APNET
@@ -249,7 +249,7 @@ int PSPNetconfDialog::Update(int animSpeed) {
 		StartDraw();
 
 		if (!hideNotice) {
-			auto err = GetI18NCategory(I18NCat::ERRORS);
+			auto err = GetI18NCategory<I18NCat::ERRORS>();
 			const float WRAP_WIDTH = 254.0f;
 			const int confirmBtn = GetConfirmButton();
 			const int cancelBtn = GetCancelButton();

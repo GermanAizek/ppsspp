@@ -85,7 +85,7 @@ static u32 GetButtonColor() {
 GamepadView::GamepadView(const char *key, UI::LayoutParams *layoutParams) : UI::View(layoutParams), key_(key) {}
 
 std::string GamepadView::DescribeText() const {
-	auto co = GetI18NCategory(I18NCat::CONTROLS);
+	auto co = GetI18NCategory<I18NCat::CONTROLS>();
 	return std::string(co->T(key_));
 }
 

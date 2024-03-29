@@ -601,7 +601,7 @@ VSShader *ShaderManagerDX9::ApplyShader(bool useHWTransform, bool useHWTessellat
 				ERROR_LOG(G3D, "Shader compilation failed, falling back to software transform");
 			}
 			if (!g_Config.bHideSlowWarnings) {
-				auto gr = GetI18NCategory(I18NCat::GRAPHICS);
+				auto gr = GetI18NCategory<I18NCat::GRAPHICS>();
 				g_OSD.Show(OSDType::MESSAGE_ERROR, gr->T("hardware transform error - falling back to software"), 2.5f);
 			}
 			delete vs;

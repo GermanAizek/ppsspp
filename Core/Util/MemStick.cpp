@@ -138,7 +138,7 @@ std::string MoveProgressReporter::Format() {
 
 
 MoveResult *MoveDirectoryContentsSafe(Path moveSrc, Path moveDest, MoveProgressReporter &progressReporter) {
-	auto ms = GetI18NCategory(I18NCat::MEMSTICK);
+	auto ms = GetI18NCategory<I18NCat::MEMSTICK>();
 	if (moveSrc.GetFilename() != "PSP") {
 		moveSrc = moveSrc / "PSP";
 	}

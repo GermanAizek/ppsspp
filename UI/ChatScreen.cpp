@@ -18,7 +18,7 @@
 
 void ChatMenu::CreateContents(UI::ViewGroup *parent) {
 	using namespace UI;
-	auto n = GetI18NCategory(I18NCat::NETWORKING);
+	auto n = GetI18NCategory<I18NCat::NETWORKING>();
 	LinearLayout *outer = new LinearLayout(ORIENT_VERTICAL, new LinearLayoutParams(FILL_PARENT,400));
 	scroll_ = outer->Add(new ScrollView(ORIENT_VERTICAL, new LinearLayoutParams(FILL_PARENT, FILL_PARENT, 1.0)));
 	LinearLayout *bottom = outer->Add(new LinearLayout(ORIENT_HORIZONTAL, new LayoutParams(FILL_PARENT, WRAP_CONTENT)));
@@ -79,7 +79,7 @@ void ChatMenu::CreateSubviews(const Bounds &screenBounds) {
 		box_->SetBG(UI::Drawable(0x99303030));
 		box_->SetHasDropShadow(false);
 
-		auto n = GetI18NCategory(I18NCat::NETWORKING);
+		auto n = GetI18NCategory<I18NCat::NETWORKING>();
 		View *title = new PopupHeader(n->T("Chat"));
 		box_->Add(title);
 
@@ -96,7 +96,7 @@ UI::EventReturn ChatMenu::OnSubmit(UI::EventParams &e) {
 	chatEdit_->SetFocus();
 	sendChat(chat);
 #elif PPSSPP_PLATFORM(ANDROID) || PPSSPP_PLATFORM(SWITCH)
-	auto n = GetI18NCategory(I18NCat::NETWORKING);
+	auto n = GetI18NCategory<I18NCat::NETWORKING>();
 	System_InputBoxGetString(token_, n->T("Chat"), "", [](const std::string &value, int) {
 		sendChat(value);
 	});
@@ -178,7 +178,7 @@ void ChatMenu::Update() {
 
 #if defined(USING_WIN_UI)
 	// Could remove the fullscreen check here, it works now.
-	auto n = GetI18NCategory(I18NCat::NETWORKING);
+	auto n = GetI18NCategory<I18NCat::NETWORKING>();
 	if (promptInput_ && g_Config.bBypassOSKWithKeyboard && !g_Config.UseFullScreen()) {
 		System_InputBoxGetString(token_, n->T("Chat"), n->T("Chat Here"), [](const std::string &value, int) {
 			sendChat(value);

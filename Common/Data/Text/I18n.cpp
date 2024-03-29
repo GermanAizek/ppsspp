@@ -112,6 +112,15 @@ void I18NCategory::SetMap(const std::map<std::string, std::string> &m) {
 	}
 }
 
+template <I18NCat category> // C++17 meta constexpr
+std::shared_ptr<I18NCategory> I18NRepo::GetCategory() {
+	std::lock_guard<std::mutex> guard(catsLock_);
+	if (category != I18NCat::NONE)
+		return cats_[(size_t)category];
+	else
+		return nullptr;
+}
+
 std::shared_ptr<I18NCategory> I18NRepo::GetCategory(I18NCat category) {
 	std::lock_guard<std::mutex> guard(catsLock_);
 	if (category != I18NCat::NONE)
@@ -174,7 +183,17 @@ void I18NRepo::LogMissingKeys() const {
 	}
 }
 
-std::shared_ptr<I18NCategory> GetI18NCategory(I18NCat category) {
+template <I18NCat category> // C++17 meta constexpr
+std::shared_ptr<I18NCategory> GetI18NCategory() {
+	if constexpr (category == I18NCat::NONE) {
+		return std::shared_ptr<I18NCategory>();
+	}
+	std::shared_ptr<I18NCategory> cat = g_i18nrepo.GetCategory<category>();
+	_dbg_assert_(cat);
+	return cat;
+}
+
+std::shared_ptr<I18NCategory> GetI18NCategoryOld(I18NCat category) {
 	if (category == I18NCat::NONE) {
 		return std::shared_ptr<I18NCategory>();
 	}
